@@ -1,15 +1,22 @@
-import axios from 'axios';
+import axios from "axios";
 import {
+  IAddProfileUser,
   IAddUser,
   IResetPassword,
   IUpdateUserInfo,
   IUpdateUserName,
+  TProfileUser,
   TUser,
-} from './interfaces';
-import { USER_ROUTE } from './route';
+} from "./interfaces";
+import { USER_ROUTE } from "./route";
 
 const getUsers = async () => {
   const { data } = await axios.get<TUser[]>(USER_ROUTE.GET_ALL_USERS);
+  return data;
+};
+
+const getProfileUsers = async () => {
+  const { data } = await axios.get<TProfileUser[]>(USER_ROUTE.GET_PROFILE);
   return data;
 };
 const postUsers = async ({ data }: IAddUser) => {
@@ -17,6 +24,10 @@ const postUsers = async ({ data }: IAddUser) => {
     USER_ROUTE.GET_ALL_USERS,
     data
   );
+  return responseData;
+};
+const postProfileUsers = async ({ data }: IAddProfileUser) => {
+  const { data: responseData } = await axios.post(USER_ROUTE.GET_PROFILE, data);
   return responseData;
 };
 
@@ -58,4 +69,6 @@ export const userApi = {
   updateUserName,
   updateUserInfo,
   deleteUser,
+  getProfileUsers,
+  postProfileUsers,
 };

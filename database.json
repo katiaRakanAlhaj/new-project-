@@ -1,16 +1,36 @@
 {
   "users": [
     {
-      "phone": 236547893,
-      "email": "katiaalhaj54@gmail.com",
-      "name": "katiasw",
-      "id": 2
+      "name": "basheer",
+      "email": "basheerberkdar@gmail.com",
+      "password": "123456789Ba@",
+      "confirmPassword": "123456789Ba@",
+      "id": 4
     },
     {
-      "phone": 33,
-      "email": "katiaalhaj54@gmail.com",
-      "name": "katia",
-      "id": 3
+      "name": "basher",
+      "email": "basheerberkdar2@gmial.com",
+      "password": "123456789Ba@",
+      "confirmPassword": "123456789Ba@",
+      "location": "",
+      "phone": "",
+      "id": 5
+    }
+  ],
+  "profile": [
+    {
+      "name": "basheer",
+      "email": "basheerberkdar@gmail.com",
+      "phone": "",
+      "location": "",
+      "id": 4
+    },
+    {
+      "email": "basheerberkdar2@gmial.com",
+      "location": "syria",
+      "name": "basher",
+      "phone": "09000000000",
+      "id": 5
     }
   ],
   "countries": [
@@ -49,6 +69,12 @@
       "details": "asdsdsd",
       "name": "adsdad",
       "id": 62
+    },
+    {
+      "name": "asdadsd",
+      "details": "adsdaddsa",
+      "price": 0,
+      "id": 74
     }
   ],
   "articles": [

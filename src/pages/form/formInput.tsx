@@ -1,5 +1,5 @@
-import { Grid, TextField } from '@mui/material';
-import { Controller } from 'react-hook-form';
+import { Grid, TextField } from "@mui/material";
+import { Controller } from "react-hook-form";
 
 interface GridComponentProps {
   inputs: {
@@ -24,6 +24,9 @@ const MyForm = ({ inputs, control, formInput }: GridComponentProps) => {
                 variant="outlined"
                 sx={formInput}
                 fullWidth
+                helperText={input.errorMassage}
+                // inputProps={{ sx: { color: "#fff" } }}
+                // InputLabelProps={{ sx: { color: "#fff" } }}
                 error={!!input.error}
                 label={input.label}
                 value={field.value}

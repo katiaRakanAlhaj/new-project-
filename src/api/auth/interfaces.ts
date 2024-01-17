@@ -4,7 +4,12 @@ export interface TUser {
   email: string;
   password: string;
   confirmPassword: string;
-  phone: number;
+}
+export interface TProfileUser {
+  id?: number;
+  name: string;
+  email: string;
+  phone: string;
   location: string;
 }
 
@@ -31,6 +36,9 @@ export interface IUpdateUserInfo {
 }
 export interface IAddUser {
   data: TUser;
+}
+export interface IAddProfileUser {
+  data: TProfileUser;
 }
 export interface IResetPassword {
   email: string;
