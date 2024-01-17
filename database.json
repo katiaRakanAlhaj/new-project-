@@ -1,0 +1,116 @@
+{
+  "users": [
+    {
+      "phone": 236547893,
+      "email": "katiaalhaj54@gmail.com",
+      "name": "katiasw",
+      "id": 2
+    },
+    {
+      "phone": 33,
+      "email": "katiaalhaj54@gmail.com",
+      "name": "katia",
+      "id": 3
+    }
+  ],
+  "countries": [
+    {
+      "name": "damas",
+      "description": "ss",
+      "id": 1
+    },
+    {
+      "name": "aleppo",
+      "description": "beaiful",
+      "id": 66
+    }
+  ],
+  "cities": [
+    {
+      "name": "syria",
+      "description": "silver",
+      "id": 2
+    },
+    {
+      "name": "damascus",
+      "description": "ss",
+      "id": 1
+    }
+  ],
+  "boins": [
+    {
+      "name": "katiaasdsad",
+      "details": "ss",
+      "price": 33,
+      "id": "1"
+    },
+    {
+      "price": 2323,
+      "details": "asdsdsd",
+      "name": "adsdad",
+      "id": 62
+    }
+  ],
+  "articles": [
+    {
+      "title": "3",
+      "description": "ss",
+      "category": [
+        {
+          "id": 56,
+          "name": "sss"
+        },
+        {
+          "name": "ssss",
+          "id": 44
+        }
+      ],
+      "id": "1"
+    },
+    {
+      "title": "Password@ffa43",
+      "description": "katia ",
+      "category": [
+        {
+          "name": "sss",
+          "id": 56
+        }
+      ],
+      "id": 89
+    }
+  ],
+  "categories": [
+    {
+      "name": "s",
+      "id": 16
+    },
+    {
+      "name": "sssss",
+      "id": 44
+    },
+    {
+      "name": "katia ",
+      "id": 100
+    }
+  ],
+  "faq": [
+    {
+      "title": "z",
+      "description": "z",
+      "category": [
+        {
+          "name": "ss",
+          "id": 22
+        }
+      ],
+      "id": "1"
+    }
+  ],
+  "services": [
+    {
+      "title": "aasss",
+      "description": "aas",
+      "id": "1"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+.error {
+  font-size: 15px !important;
+  color: red;
+}
+.background {
+  --tw-bg-opacity: 1;
+  background-color: rgb(241 245 249 / var(--tw-bg-opacity));
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+hr {
+  width: 30px;
+  height: 4px;
+  background-color: white;
+  margin-bottom: 5px;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+form input:focus {
+  outline: none;
+  border: solid 3px black;
+}
+table th,
+table td {
+  border: 1px solid black;
+  padding: 8px;
+}
+body {
+  overflow-y: auto;
+}
