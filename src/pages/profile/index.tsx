@@ -147,7 +147,7 @@ const ProfilePage = ({ themeMode }: { themeMode: string }) => {
       id: '0',
       label: t('email'),
       icon: <IconEmail />,
-      text: <Typography>{otherUser?.name}</Typography>, // Include the otherUser?.name value here
+      text: <Typography>{otherUser?.email}</Typography>, // Include the otherUser?.name value here
     },
     {
       id: '1',
