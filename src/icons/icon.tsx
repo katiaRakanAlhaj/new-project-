@@ -20,7 +20,7 @@ import { MdOutlineEmail } from 'react-icons/md';
 import { LuPhoneOutgoing } from 'react-icons/lu';
 import { GrMapLocation } from 'react-icons/gr';
 import { FaUserEdit } from 'react-icons/fa';
-import { FaUserAlt } from 'react-icons/fa';
+import { HiUsers } from 'react-icons/hi2';
 
 export const WhatsUpIcon = () => <BsWhatsapp size={'25px'} className="mx-2" />;
 export const TwitterIcon = () => <LuTwitter size={'25px'} className="mx-2" />;
@@ -47,4 +47,4 @@ export const IconEmail = () => <MdOutlineEmail size={'20px'} />;
 export const IconPhone = () => <LuPhoneOutgoing size={'20px'} />;
 export const IconLocation = () => <GrMapLocation size={'20px'} />;
 export const IconProfile = () => <FaUserEdit size={'20px'} color="black" />;
-export const IconUser = () => <FaUserAlt size={'20px'} />;
+export const IconUser = () => <HiUsers size={'20px'} />;

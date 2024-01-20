@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Signup from '../signup/signup';
 import Login from '../login/login';
@@ -17,7 +17,7 @@ import Category from '../../pages/category/category';
 import FAQ from '../../pages/faq/faq';
 import ProfilePage from '../../pages/profile/index';
 import Service from '../../pages/service/service';
-import Users from '../../pages/users/user';
+import Users from '../../pages/users/users';
 
 const Layout = () => {
   const location = useLocation();
@@ -33,7 +33,7 @@ const Layout = () => {
   const handleMoonClick = () => {
     setThemeMode(themeMode === 'light' ? 'dark' : 'light');
   };
-
+  const { id } = useParams();
   return (
     <Box dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
       {showDashboard && <Navbar onMoonClick={handleMoonClick} />}
@@ -55,11 +55,11 @@ const Layout = () => {
           />
           <Route path="/faq" element={<FAQ themeMode={themeMode} />} />
           <Route path="/service" element={<Service themeMode={themeMode} />} />
+          <Route path="/user" element={<Users themeMode={themeMode} />} />
           <Route
             path="/profile"
             element={<ProfilePage themeMode={themeMode} />}
           />
-          <Route path="/user" element={<Users themeMode={themeMode} />} />
         </Routes>
       </div>
     </Box>

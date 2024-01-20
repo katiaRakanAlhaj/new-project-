@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import useServices, { serviceQueries } from '../../api/services/query';
 import { serviceApi } from '../../api/services/api';
 import { shawError, shawSuccess } from '../../lib/tosts';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import Table from '../../components/Table/table';
 import { useForm } from 'react-hook-form';
 import { IService } from '../../api/services/interfaces';
@@ -19,6 +19,7 @@ import { schema_service } from '../../components/schema/shcema';
 import Modal from '../models/model';
 import { useTheme } from '@mui/material';
 import MyForm from '../form/formInput';
+import Search from '../boins/search';
 
 const Service = ({ themeMode }: { themeMode: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,6 +38,7 @@ const Service = ({ themeMode }: { themeMode: string }) => {
     handleSubmit,
     setValue,
     control,
+    reset,
     formState: { errors },
   } = useForm<IService>({
     resolver: yupResolver(schema_service),
@@ -66,6 +68,9 @@ const Service = ({ themeMode }: { themeMode: string }) => {
         shawSuccess(t('boin added sucessfully'));
       }
       refetch();
+      setSelectedId(0);
+      toggleModal();
+      reset();
       console.log('data', data);
     } catch (error) {
       shawSuccess('error');
@@ -108,14 +113,14 @@ const Service = ({ themeMode }: { themeMode: string }) => {
       name: 'title',
       label: t('Title'),
       error: errors.title,
-      errorMassage: errors.title,
+      errorMassage: errors.title?.message,
     },
 
     {
       name: 'description',
       label: t('Description'),
       error: errors.description,
-      errorMassage: errors.description,
+      errorMassage: errors.description?.message,
     },
   ];
   const theme = useTheme();
@@ -126,7 +131,7 @@ const Service = ({ themeMode }: { themeMode: string }) => {
         backgroundColor:
           themeMode === 'dark'
             ? theme.palette.primary.dark
-            : theme.palette.primary.background,
+            : theme.palette.background.default,
       }}
     >
       <Box sx={flexContainer}>
@@ -145,11 +150,12 @@ const Service = ({ themeMode }: { themeMode: string }) => {
           </Typography>
         </Box>
         <Box>
-          <TextField
-            label={t('Search For service')}
+          <Search
+            label={t('Search For Service')}
             size={'small'}
             value={searchValue}
             onChange={handleSearchChange}
+            themeMode={themeMode}
           />
         </Box>
         <Box>
@@ -194,7 +200,12 @@ const Service = ({ themeMode }: { themeMode: string }) => {
               >
                 {selectedId > 0 ? t('Update Service') : t('Add New Service')}
               </Typography>
-              <MyForm control={control} formInput={formInput} inputs={inputs} />
+              <MyForm
+                control={control}
+                formInput={formInput}
+                inputs={inputs}
+                themeMode={themeMode}
+              />
 
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Button type="submit" variant="contained" size="small">

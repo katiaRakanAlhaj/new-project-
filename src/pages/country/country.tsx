@@ -3,7 +3,7 @@ import Modal from '../models/model';
 import useCountries, { countryQueries } from '../../api/countries/query';
 import { shawError, shawSuccess } from '../../lib/tosts';
 import Table from '../../components/Table/table';
-import { Button, Box, Typography, TextField } from '@mui/material';
+import { Button, Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import {
   AddButton,
@@ -26,6 +26,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { schema_country } from '../../components/schema/shcema';
 import { useTheme } from '@mui/material';
 import MyForm from '../form/formInput';
+import Search from '../boins/search';
 
 const Country = ({ themeMode }: { themeMode: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -51,6 +52,7 @@ const Country = ({ themeMode }: { themeMode: string }) => {
     handleSubmit,
     setValue,
     control,
+    reset,
     formState: { errors },
   } = useForm<ICountry>({
     resolver: yupResolver(schema_country),
@@ -84,6 +86,9 @@ const Country = ({ themeMode }: { themeMode: string }) => {
         shawSuccess(t('country added sucessfully'));
       }
       refetch();
+      setSelectedId(0);
+      toggleModal();
+      reset();
       dispatch(fetchCountry());
     } catch (error) {
       console.error('Error:', error);
@@ -130,13 +135,13 @@ const Country = ({ themeMode }: { themeMode: string }) => {
       name: 'name',
       label: t('Name'),
       error: errors.name,
-      errorMassage: errors.name,
+      errorMassage: errors.name?.message,
     },
     {
       name: 'description',
       label: t('Description'),
       error: errors.description,
-      errorMassage: errors.description,
+      errorMassage: errors.description?.message,
     },
   ];
   const theme = useTheme();
@@ -147,7 +152,7 @@ const Country = ({ themeMode }: { themeMode: string }) => {
         backgroundColor:
           themeMode === 'dark'
             ? theme.palette.primary.dark
-            : theme.palette.primary.background,
+            : theme.palette.background.default,
       }}
     >
       <Box sx={flexContainer}>
@@ -166,11 +171,12 @@ const Country = ({ themeMode }: { themeMode: string }) => {
           </Typography>
         </Box>
         <Box>
-          <TextField
-            label={t('Search For Country')}
+          <Search
+            label={t('Search For Boin')}
             size={'small'}
             value={searchValue}
             onChange={handleSearchChange}
+            themeMode={themeMode}
           />
         </Box>
         <Box>
@@ -215,7 +221,12 @@ const Country = ({ themeMode }: { themeMode: string }) => {
               >
                 {selectedId > 0 ? t('Update Country') : t('Add New Country')}
               </Typography>
-              <MyForm control={control} formInput={formInput} inputs={inputs} />
+              <MyForm
+                control={control}
+                formInput={formInput}
+                inputs={inputs}
+                themeMode={themeMode}
+              />
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Button type="submit" variant="contained" size="small">
                   {t('Submit')}

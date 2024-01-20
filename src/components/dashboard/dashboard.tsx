@@ -42,7 +42,7 @@ const Dashboard = ({ themeMode }: { themeMode: string }) => {
     { id: 6, to: '/category', icon: <IconCategory />, text: t('category') },
     { id: 6, to: '/faq', icon: <IconFaq />, text: t('FAQ') },
     { id: 7, to: '/service', icon: <IconService />, text: t('Service') },
-    { id: 7, to: '/user', icon: <IconUser />, text: t('User') },
+    { id: 8, to: '/user', icon: <IconUser />, text: t('User') },
   ];
 
   return (

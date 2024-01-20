@@ -88,6 +88,14 @@ const Navbar = ({ onMoonClick }: { onMoonClick: Function }) => {
               onChange={handleChange}
               value={i18next.language}
               size={'small'}
+              inputProps={{
+                sx: {
+                  color:
+                    theme.palette.mode == 'dark'
+                      ? theme.palette.primary.light
+                      : 'grey',
+                },
+              }}
             >
               <MenuItem value="ar">{t('arabic')}</MenuItem>
               <MenuItem value="en">{t('english')}</MenuItem>

@@ -26,6 +26,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { schema_faq } from '../../components/schema/shcema';
 import { categoryQueries } from '../../api/categories/query';
 import { useTheme } from '@mui/material';
+import Search from '../boins/search';
+import { ICategory } from '../../api/categories/interfaces';
 
 const FAQ = ({ themeMode }: { themeMode: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -47,6 +49,7 @@ const FAQ = ({ themeMode }: { themeMode: string }) => {
     handleSubmit,
     setValue,
     control,
+    reset,
     formState: { errors },
   } = useForm<IFAQ>({
     resolver: yupResolver(schema_faq),
@@ -77,6 +80,9 @@ const FAQ = ({ themeMode }: { themeMode: string }) => {
         shawSuccess(t('faq added sucessfully'));
       }
       refetch();
+      setSelectedId(0);
+      toggleModal();
+      reset();
     } catch (error) {
       shawSuccess('error');
     }
@@ -128,19 +134,19 @@ const FAQ = ({ themeMode }: { themeMode: string }) => {
       name: 'title',
       label: t('Title'),
       error: errors.title,
-      errorMassage: errors.title,
+      errorMassage: errors.title?.message,
     },
     {
       name: 'description',
       label: t('Description'),
       error: errors.description,
-      errorMassage: errors.description,
+      errorMassage: errors.description?.message,
     },
     {
       name: 'category',
       label: t('Category'),
       error: errors.category,
-      errorMassage: errors.category,
+      errorMassage: errors.category?.message,
     },
   ];
   const theme = useTheme();
@@ -151,7 +157,7 @@ const FAQ = ({ themeMode }: { themeMode: string }) => {
         backgroundColor:
           themeMode === 'dark'
             ? theme.palette.primary.dark
-            : theme.palette.primary.background,
+            : theme.palette.background.default,
       }}
     >
       <Box sx={flexContainer}>
@@ -170,11 +176,12 @@ const FAQ = ({ themeMode }: { themeMode: string }) => {
           </Typography>
         </Box>
         <Box>
-          <TextField
+          <Search
             label={t('Search For Faq')}
             size={'small'}
             value={searchValue}
             onChange={handleSearchChange}
+            themeMode={themeMode}
           />
         </Box>
         <Box>
@@ -232,12 +239,14 @@ const FAQ = ({ themeMode }: { themeMode: string }) => {
                               options={categories ?? []}
                               getOptionLabel={(option) => option.name}
                               multiple
+                              value={field.value as ICategory[]}
                               renderInput={(params) => (
                                 <TextField
                                   {...params}
                                   variant="outlined"
                                   sx={formInput}
                                   fullWidth
+                                  helperText={input.errorMassage}
                                   error={!!input.error}
                                   label={input.label}
                                 />
@@ -250,6 +259,7 @@ const FAQ = ({ themeMode }: { themeMode: string }) => {
                           <TextField
                             variant="outlined"
                             sx={formInput}
+                            helperText={input.errorMassage}
                             fullWidth
                             error={!!input.error}
                             label={input.label}

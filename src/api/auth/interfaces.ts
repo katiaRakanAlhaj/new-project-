@@ -5,13 +5,6 @@ export interface TUser {
   password: string;
   confirmPassword: string;
 }
-export interface TProfileUser {
-  id?: number;
-  name: string;
-  email: string;
-  phone: string;
-  location: string;
-}
 
 export interface TLogin {
   name: string;
@@ -37,9 +30,7 @@ export interface IUpdateUserInfo {
 export interface IAddUser {
   data: TUser;
 }
-export interface IAddProfileUser {
-  data: TProfileUser;
-}
+
 export interface IResetPassword {
   email: string;
   password: string;

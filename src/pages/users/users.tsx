@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import useUsers, { userQueries } from '../../api/auth/query';
+import useUsers, { userQueries } from '../../api/profile/query';
+import { TProfileUser } from '../../api/profile/interfaces';
 import { useForm } from 'react-hook-form';
-import { TUser } from '../../api/auth/interfaces';
-import { userApi } from '../../api/auth/api';
+import { userProfileApi } from '../../api/profile/api';
 import { shawError, shawSuccess } from '../../lib/tosts';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { useTheme } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import {
   AddButton,
   container,
@@ -13,12 +14,12 @@ import {
   formInput,
   popup,
 } from '../../components/style/style';
-import Modal from '../models/model';
+import MyForm from '../form/formInput';
 import Table from '../../components/Table/table';
+import Modal from '../models/model';
+import Search from '../boins/search';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema_user } from '../../components/schema/shcema';
-import { useTheme } from '@mui/material';
-import MyForm from '../form/formInput';
 
 const Users = ({ themeMode }: { themeMode: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,21 +32,22 @@ const Users = ({ themeMode }: { themeMode: string }) => {
 
   const { data: response = [], refetch } = useUsers();
 
-  const { data: user, isLoading: isLoadingBoin } =
+  const { data: user, isLoading: isLoadingUser } =
     userQueries.useGetUser(selectedId);
 
-  console.log('boin', user);
   const {
     handleSubmit,
     control,
     setValue,
+    reset,
     formState: { errors },
-  } = useForm<TUser>({
+  } = useForm<TProfileUser>({
     resolver: yupResolver(schema_user),
     defaultValues: {
       name: '',
       email: '',
-      phone: 0,
+      phone: '',
+      location: '',
     },
   });
   const generateRandomNumber = (min: number, max: number): number => {
@@ -57,25 +59,40 @@ const Users = ({ themeMode }: { themeMode: string }) => {
       setValue('name', user.name);
       setValue('email', user.email);
       setValue('phone', user.phone);
+      setValue('location', user.location);
       setValue('id', user.id);
     }
   }, [selectedId, user]);
 
-  const handleFormSubmit = async (data: TUser) => {
+  const handleFormSubmit = async (data: TProfileUser) => {
     try {
       if (selectedId > 0) {
-        await userApi.updateUserInfo({ data: data, id: selectedId });
+        await userProfileApi.updateUser({ data: data, id: selectedId });
         shawSuccess(t('user updated successfully'));
       } else {
-        await userApi.postUsers({
+        await userProfileApi.postUser({
           data: { ...data, id: generateRandomNumber(1, 100) },
         });
         shawSuccess(t('user added sucessfully'));
       }
       refetch();
+      setSelectedId(0);
+      toggleModal();
+      reset();
       console.log('data', data);
     } catch (error) {
       shawSuccess('error');
+    }
+  };
+  const handleDelete = async (id?: number) => {
+    try {
+      if (id) {
+        userProfileApi.deleteUser(id);
+      }
+      refetch();
+      shawSuccess(t('user deleted successfully'));
+    } catch (err) {
+      shawError(t('failed in delete user'));
     }
   };
 
@@ -90,45 +107,41 @@ const Users = ({ themeMode }: { themeMode: string }) => {
     setSearchValue(event.target.value);
   };
 
-  const filteredData =
-    response?.filter((item) => item.name?.includes(searchValue)) ?? [];
-  const handleDelete = async (id?: number) => {
-    try {
-      if (id) {
-        userApi.deleteUser(id);
-      }
-      refetch();
-      shawSuccess(t('user deleted successfully'));
-    } catch (err) {
-      shawError(t('failed in delete user'));
-    }
-  };
-
+  const filteredData = response.filter((item) =>
+    item.name.toLowerCase().includes(searchValue.toLowerCase())
+  );
   const columns = [
     { th: t('ID'), key: 'id' },
     { th: t('Name'), key: 'name' },
     { th: t('Email'), key: 'email' },
     { th: t('Phone'), key: 'phone' },
+    { th: t('Location'), key: 'location' },
     { th: t('Actions'), key: 'actions' },
   ];
   const inputs = [
     {
       name: 'name',
-      label: t('name'),
+      label: t('Name'),
       error: errors.name,
-      errorMassage: errors.name,
+      errorMassage: errors.name?.message,
     },
     {
       name: 'email',
       label: t('email'),
       error: errors.email,
-      errorMassage: errors.email,
+      errorMassage: errors?.email?.message,
     },
     {
       name: 'phone',
       label: t('phone'),
       error: errors.phone,
-      errorMassage: errors.phone,
+      errorMassage: errors.phone?.message,
+    },
+    {
+      name: 'location',
+      label: t('location'),
+      error: errors.location,
+      errorMassage: errors.location?.message,
     },
   ];
   const theme = useTheme();
@@ -139,7 +152,7 @@ const Users = ({ themeMode }: { themeMode: string }) => {
         backgroundColor:
           themeMode === 'dark'
             ? theme.palette.primary.dark
-            : theme.palette.primary.background,
+            : theme.palette.background.default,
       }}
     >
       <Box sx={flexContainer}>
@@ -158,11 +171,12 @@ const Users = ({ themeMode }: { themeMode: string }) => {
           </Typography>
         </Box>
         <Box>
-          <TextField
-            label={t('Search For Boin')}
+          <Search
+            label={t('Search For user')}
             size={'small'}
             value={searchValue}
             onChange={handleSearchChange}
+            themeMode={themeMode}
           />
         </Box>
         <Box>
@@ -180,7 +194,7 @@ const Users = ({ themeMode }: { themeMode: string }) => {
       />
       {isModalOpen && (
         <Modal onClose={toggleModal} openModal={isModalOpen}>
-          {isLoadingBoin ? (
+          {isLoadingUser ? (
             <div>loading...</div>
           ) : (
             <Box
@@ -207,7 +221,12 @@ const Users = ({ themeMode }: { themeMode: string }) => {
               >
                 {selectedId > 0 ? t('Update User') : t('Add New User')}
               </Typography>
-              <MyForm control={control} formInput={formInput} inputs={inputs} />
+              <MyForm
+                control={control}
+                formInput={formInput}
+                inputs={inputs}
+                themeMode={themeMode}
+              />
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Button type="submit" variant="contained" size="small">
                   {t('Submit')}

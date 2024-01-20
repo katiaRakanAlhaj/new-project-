@@ -45,7 +45,7 @@ const SubmitButtons = ({ isSubmitting }: SubmitButtonsProps) => {
           type="submit"
           disabled={isSubmitting}
         >
-          {t('sign in')}
+          {t('sign up')}
         </Button>
       </Box>
     </>

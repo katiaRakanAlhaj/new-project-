@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { categoryQueries } from '../../api/categories/query';
 import { CategoryApi } from '../../api/categories/api';
 import { shawError, shawSuccess } from '../../lib/tosts';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import {
   AddButton,
   container,
@@ -19,6 +19,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { schema_category } from '../../components/schema/shcema';
 import { useTheme } from '@mui/material';
 import MyForm from '../form/formInput';
+import Search from '../boins/search';
 const Category = ({ themeMode }: { themeMode: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
@@ -46,6 +47,7 @@ const Category = ({ themeMode }: { themeMode: string }) => {
     handleSubmit,
     setValue,
     control,
+    reset,
     formState: { errors },
   } = useForm<ICategory>({
     resolver: yupResolver(schema_category),
@@ -77,6 +79,9 @@ const Category = ({ themeMode }: { themeMode: string }) => {
         shawSuccess(t('category added sucessfully'));
       }
       refetch();
+      setSelectedId(0);
+      toggleModal();
+      reset();
       console.log('data', data);
     } catch (error) {
       shawSuccess('error');
@@ -106,7 +111,7 @@ const Category = ({ themeMode }: { themeMode: string }) => {
       name: 'name',
       label: t('Name'),
       error: errors.name,
-      errorMassage: errors.name,
+      errorMassage: errors.name?.message,
     },
   ];
   const theme = useTheme();
@@ -117,7 +122,7 @@ const Category = ({ themeMode }: { themeMode: string }) => {
         backgroundColor:
           themeMode === 'dark'
             ? theme.palette.primary.dark
-            : theme.palette.primary.background,
+            : theme.palette.background.default,
       }}
     >
       <Box sx={flexContainer}>
@@ -136,11 +141,12 @@ const Category = ({ themeMode }: { themeMode: string }) => {
           </Typography>
         </Box>
         <Box>
-          <TextField
+          <Search
             label={t('Search For Category')}
             size={'small'}
             value={searchValue}
             onChange={handleSearchChange}
+            themeMode={themeMode}
           />
         </Box>
         <Box>
@@ -186,7 +192,12 @@ const Category = ({ themeMode }: { themeMode: string }) => {
               >
                 {selectedId > 0 ? t('Update Category') : t('Add New category')}
               </Typography>
-              <MyForm control={control} formInput={formInput} inputs={inputs} />
+              <MyForm
+                control={control}
+                formInput={formInput}
+                inputs={inputs}
+                themeMode={themeMode}
+              />
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Button type="submit" variant="contained" size="small">
                   {t('Submit')}

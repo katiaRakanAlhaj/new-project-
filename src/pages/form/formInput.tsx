@@ -1,5 +1,6 @@
-import { Grid, TextField } from "@mui/material";
-import { Controller } from "react-hook-form";
+import { useTheme } from '@mui/material';
+import { Grid, TextField } from '@mui/material';
+import { Controller } from 'react-hook-form';
 
 interface GridComponentProps {
   inputs: {
@@ -10,8 +11,15 @@ interface GridComponentProps {
   }[];
   control: any;
   formInput: any;
+  themeMode: string;
 }
-const MyForm = ({ inputs, control, formInput }: GridComponentProps) => {
+const MyForm = ({
+  inputs,
+  control,
+  formInput,
+  themeMode,
+}: GridComponentProps) => {
+  const theme = useTheme();
   return (
     <Grid container spacing={2}>
       {inputs.map((input) => (
@@ -25,8 +33,22 @@ const MyForm = ({ inputs, control, formInput }: GridComponentProps) => {
                 sx={formInput}
                 fullWidth
                 helperText={input.errorMassage}
-                // inputProps={{ sx: { color: "#fff" } }}
-                // InputLabelProps={{ sx: { color: "#fff" } }}
+                inputProps={{
+                  sx: {
+                    color:
+                      themeMode == 'dark'
+                        ? theme.palette.primary.light
+                        : 'grey',
+                  },
+                }}
+                InputLabelProps={{
+                  sx: {
+                    color:
+                      themeMode == 'dark'
+                        ? theme.palette.primary.light
+                        : 'grey',
+                  },
+                }}
                 error={!!input.error}
                 label={input.label}
                 value={field.value}

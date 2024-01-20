@@ -27,6 +27,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { schema_article } from '../../components/schema/shcema';
 import { ICategory } from '../../api/categories/interfaces';
 import { useTheme } from '@mui/material';
+import Search from '../boins/search';
 
 const Article = ({ themeMode }: { themeMode: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -124,19 +125,19 @@ const Article = ({ themeMode }: { themeMode: string }) => {
       name: 'title',
       label: t('Title'),
       error: errors.title,
-      errorMassage: errors.title,
+      errorMassage: errors.title?.message,
     },
     {
       name: 'description',
       label: t('Description'),
       error: errors.description,
-      errorMassage: errors.description,
+      errorMassage: errors.description?.message,
     },
     {
       name: 'category',
       label: t('Category'),
       error: errors.category,
-      errorMassage: errors.category,
+      errorMassage: errors.category?.message,
     },
   ];
 
@@ -170,7 +171,7 @@ const Article = ({ themeMode }: { themeMode: string }) => {
         backgroundColor:
           themeMode === 'dark'
             ? theme.palette.primary.dark
-            : theme.palette.primary.background,
+            : theme.palette.background.default,
       }}
     >
       <Grid container spacing={4} alignItems="center" mb={2} sx={{}}>
@@ -190,12 +191,12 @@ const Article = ({ themeMode }: { themeMode: string }) => {
         </Grid>
         <Grid item md={6} xs={12}>
           <Box display={isMobile ? 'grid' : 'flex'} gap={1} alignItems="center">
-            <TextField
-              sx={{ width: '100%' }}
+            <Search
               label={t('Search For Article')}
               size={'small'}
               value={searchValue}
               onChange={handleSearchChange}
+              themeMode={themeMode}
             />
             <Button
               variant="contained"
@@ -265,6 +266,7 @@ const Article = ({ themeMode }: { themeMode: string }) => {
                                   {...params}
                                   variant="outlined"
                                   sx={formInput}
+                                  helperText={input.errorMassage}
                                   fullWidth
                                   error={!!input.error}
                                   label={input.label}
@@ -282,6 +284,7 @@ const Article = ({ themeMode }: { themeMode: string }) => {
                             error={!!input.error}
                             label={input.label}
                             value={field.value}
+                            helperText={input.errorMassage}
                             onChange={field.onChange}
                           />
                         );

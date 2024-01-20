@@ -1,17 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
-import { userApi } from './api';
+import { userProfileApi } from './api';
 
 const useUsers = () => {
   const queryResult = useQuery({
     queryKey: ['get-all-users'],
-    queryFn: () => userApi.getUsers(),
+    queryFn: () => userProfileApi.getUsers(),
   });
   return queryResult;
 };
 const useGetUser = (id: number) => {
   const queryResult = useQuery({
     queryKey: ['get-user', id],
-    queryFn: () => userApi.getUser(id),
+    queryFn: () => userProfileApi.getUser(id),
     enabled: id > 0,
   });
   return queryResult;

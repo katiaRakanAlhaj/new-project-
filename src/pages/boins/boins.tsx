@@ -1,28 +1,29 @@
-import { useEffect, useState } from "react";
-import useBoins, { boinQueries } from "../../api/boins/query";
-import { BoinApi } from "../../api/boins/api";
-import { shawError, shawSuccess } from "../../lib/tosts";
-import Modal from "../models/model";
-import Table from "../../components/Table/table";
-import { Box, Button, TextField, Typography } from "@mui/material";
-import { useTranslation } from "react-i18next";
+import { useEffect, useState } from 'react';
+import useBoins, { boinQueries } from '../../api/boins/query';
+import { BoinApi } from '../../api/boins/api';
+import { shawError, shawSuccess } from '../../lib/tosts';
+import Modal from '../models/model';
+import Table from '../../components/Table/table';
+import { Box, Button, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import {
   flexContainer,
   container,
   AddButton,
   popup,
   formInput,
-} from "../../components/style/style";
-import { IBoins } from "../../api/boins/interfaces";
-import { useForm } from "react-hook-form";
-import { schema_boin } from "../../components/schema/shcema";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useTheme } from "@mui/material";
-import MyForm from "../form/formInput";
+} from '../../components/style/style';
+import { IBoins } from '../../api/boins/interfaces';
+import { useForm } from 'react-hook-form';
+import { schema_boin } from '../../components/schema/shcema';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useTheme } from '@mui/material';
+import MyForm from '../form/formInput';
+import Search from './search';
 
 const Boins = ({ themeMode }: { themeMode: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -38,12 +39,13 @@ const Boins = ({ themeMode }: { themeMode: string }) => {
     handleSubmit,
     control,
     setValue,
+    reset,
     formState: { errors },
   } = useForm<IBoins>({
     resolver: yupResolver(schema_boin),
     defaultValues: {
-      name: "",
-      details: "",
+      name: '',
+      details: '',
       price: 0,
     },
   });
@@ -53,10 +55,10 @@ const Boins = ({ themeMode }: { themeMode: string }) => {
   };
   useEffect(() => {
     if (selectedId > 0 && boin) {
-      setValue("name", boin.name);
-      setValue("details", boin.details);
-      setValue("price", boin.price);
-      setValue("id", boin.id);
+      setValue('name', boin.name);
+      setValue('details', boin.details);
+      setValue('price', boin.price);
+      setValue('id', boin.id);
     }
   }, [selectedId, boin]);
 
@@ -64,17 +66,19 @@ const Boins = ({ themeMode }: { themeMode: string }) => {
     try {
       if (selectedId > 0) {
         await BoinApi.updateBoins({ data: data, id: selectedId });
-        shawSuccess(t("boin updated successfully"));
+        shawSuccess(t('boin updated successfully'));
       } else {
         await BoinApi.postBoins({
           data: { ...data, id: generateRandomNumber(1, 100) },
         });
-        shawSuccess(t("boin added sucessfully"));
+        shawSuccess(t('boin added sucessfully'));
       }
       refetch();
-      console.log("data", data);
+      setSelectedId(0);
+      toggleModal();
+      reset();
     } catch (error) {
-      shawSuccess("error");
+      shawSuccess('error');
     }
   };
   const handleDelete = async (id?: number) => {
@@ -83,9 +87,9 @@ const Boins = ({ themeMode }: { themeMode: string }) => {
         BoinApi.deleteBoins(id);
       }
       refetch();
-      shawSuccess(t("boin deleted successfully"));
+      shawSuccess(t('boin deleted successfully'));
     } catch (err) {
-      shawError(t("failed in delete boin"));
+      shawError(t('failed in delete boin'));
     }
   };
 
@@ -104,28 +108,28 @@ const Boins = ({ themeMode }: { themeMode: string }) => {
     item.name.toLowerCase().includes(searchValue.toLowerCase())
   );
   const columns = [
-    { th: t("ID"), key: "id" },
-    { th: t("Name"), key: "name" },
-    { th: t("Details"), key: "details" },
-    { th: t("Price"), key: "price" },
-    { th: t("Actions"), key: "actions" },
+    { th: t('ID'), key: 'id' },
+    { th: t('Name'), key: 'name' },
+    { th: t('Details'), key: 'details' },
+    { th: t('Price'), key: 'price' },
+    { th: t('Actions'), key: 'actions' },
   ];
   const inputs = [
     {
-      name: "name",
-      label: t("Name"),
+      name: 'name',
+      label: t('Name'),
       error: errors.name,
       errorMassage: errors.name?.message,
     },
     {
-      name: "details",
-      label: t("Details"),
+      name: 'details',
+      label: t('Details'),
       error: errors.details,
       errorMassage: errors.details?.message,
     },
     {
-      name: "price",
-      label: t("Price"),
+      name: 'price',
+      label: t('Price'),
       error: errors.price,
       errorMassage: errors.price?.message,
     },
@@ -135,12 +139,8 @@ const Boins = ({ themeMode }: { themeMode: string }) => {
     <Box
       sx={container}
       style={{
-        // backgroundColor:
-        //   themeMode === 'dark'
-        //     ? theme.palette.primary.dark
-        //     : theme.palette.primary.background,
         backgroundColor:
-          themeMode === "dark"
+          themeMode === 'dark'
             ? theme.palette.primary.dark
             : theme.palette.background.default,
       }}
@@ -150,27 +150,28 @@ const Boins = ({ themeMode }: { themeMode: string }) => {
           <Typography
             style={{
               color:
-                themeMode === "dark"
+                themeMode === 'dark'
                   ? theme.palette.primary.light
                   : theme.palette.primary.dark,
             }}
             variant="h6"
-            sx={{ fontWeight: "bold" }}
+            sx={{ fontWeight: 'bold' }}
           >
-            {t("My Boin")}
+            {t('My Boin')}
           </Typography>
         </Box>
         <Box>
-          <TextField
-            label={t("Search For Boin")}
-            size={"small"}
+          <Search
+            label={t('Search For Boin')}
+            size={'small'}
             value={searchValue}
             onChange={handleSearchChange}
+            themeMode={themeMode}
           />
         </Box>
         <Box>
           <Button variant="contained" sx={AddButton} onClick={toggleModal}>
-            {t("Add New Boin")}
+            {t('Add New Boin')}
           </Button>
         </Box>
       </Box>
@@ -192,31 +193,36 @@ const Boins = ({ themeMode }: { themeMode: string }) => {
               sx={popup}
               style={{
                 backgroundColor:
-                  themeMode === "dark"
+                  themeMode === 'dark'
                     ? theme.palette.primary.dark
                     : theme.palette.primary.light,
-                border: themeMode === "dark" ? "solid 1px white" : "none",
+                border: themeMode === 'dark' ? 'solid 1px white' : 'none',
               }}
             >
               <Typography
                 style={{
                   color:
-                    themeMode === "dark"
+                    themeMode === 'dark'
                       ? theme.palette.primary.light
                       : theme.palette.primary.dark,
                 }}
                 variant="h6"
-                sx={{ textAlign: "center", color: "black", fontWeight: "bold" }}
+                sx={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}
               >
-                {selectedId > 0 ? t("Update Boin") : t("Add New Boin")}
+                {selectedId > 0 ? t('Update Boin') : t('Add New Boin')}
               </Typography>
-              <MyForm control={control} formInput={formInput} inputs={inputs} />
-              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <MyForm
+                control={control}
+                formInput={formInput}
+                inputs={inputs}
+                themeMode={themeMode}
+              />
+              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Button type="submit" variant="contained" size="small">
-                  {t("Submit")}
+                  {t('Submit')}
                 </Button>
                 <Button onClick={toggleModal} variant="contained" size="small">
-                  {t("Close")}
+                  {t('Close')}
                 </Button>
               </Box>
             </Box>

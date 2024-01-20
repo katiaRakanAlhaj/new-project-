@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import useCities, { cityQueries } from '../../api/cities/query';
 import { shawError, shawSuccess } from '../../lib/tosts';
 import Table from '../../components/Table/table';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import Modal from '../models/model';
 import { useTranslation } from 'react-i18next';
 import {
@@ -26,6 +26,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { schema_city } from '../../components/schema/shcema';
 import { useTheme } from '@mui/material';
 import MyForm from '../form/formInput';
+import Search from '../boins/search';
 
 const City = ({ themeMode }: { themeMode: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -44,6 +45,7 @@ const City = ({ themeMode }: { themeMode: string }) => {
     setValue,
     control,
     formState: { errors },
+    reset,
   } = useForm<ICity>({
     resolver: yupResolver(schema_city),
     defaultValues: { name: '', description: '' },
@@ -75,6 +77,9 @@ const City = ({ themeMode }: { themeMode: string }) => {
         shawSuccess(t('city added successfully'));
       }
       refetch();
+      setSelectedId(0);
+      toggleModal();
+      reset();
     } catch (error) {
       console.error('Error:', error);
       shawError('failed');
@@ -130,13 +135,13 @@ const City = ({ themeMode }: { themeMode: string }) => {
       name: 'name',
       label: t('Name'),
       error: errors.name,
-      errorMassage: errors.name,
+      errorMassage: errors.name?.message,
     },
     {
       name: 'description',
       label: t('Description'),
       error: errors.description,
-      errorMassage: errors.description,
+      errorMassage: errors.description?.message,
     },
   ];
   const theme = useTheme();
@@ -147,7 +152,7 @@ const City = ({ themeMode }: { themeMode: string }) => {
         backgroundColor:
           themeMode === 'dark'
             ? theme.palette.primary.dark
-            : theme.palette.primary.background,
+            : theme.palette.background.default,
       }}
     >
       <Box sx={flexContainer}>
@@ -166,11 +171,12 @@ const City = ({ themeMode }: { themeMode: string }) => {
           </Typography>
         </Box>
         <Box>
-          <TextField
+          <Search
             label={t('Search For City')}
             size={'small'}
             value={searchValue}
             onChange={handleSearchChange}
+            themeMode={themeMode}
           />
         </Box>
         <Box>
@@ -220,7 +226,12 @@ const City = ({ themeMode }: { themeMode: string }) => {
               >
                 {selectedId > 0 ? t('Update City') : t('Add New City')}
               </Typography>
-              <MyForm control={control} formInput={formInput} inputs={inputs} />
+              <MyForm
+                control={control}
+                formInput={formInput}
+                inputs={inputs}
+                themeMode={themeMode}
+              />
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Button type="submit" variant="contained" size="small">
                   {t('Submit')}
