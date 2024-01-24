@@ -38,7 +38,9 @@ const Layout = () => {
     <Box dir={i18n.language === "ar" ? "rtl" : "ltr"}>
       {showDashboard && <Navbar onMoonClick={handleMoonClick} />}
       <div className={`${showDashboard ? "flex" : ""} w-full`}>
-        {showDashboard && <Dashboard themeMode={themeMode} />}{" "}
+        {showDashboard && (
+          <Dashboard themeMode={themeMode} onMoonClick={handleMoonClick} />
+        )}{" "}
         <Routes>
           <Route path="/" element={<Signup />} />
           <Route path="/login" element={<Login />} />
