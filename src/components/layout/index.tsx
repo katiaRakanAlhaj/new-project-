@@ -11,7 +11,7 @@ import Dashboard from "../dashboard/dashboard";
 import Country from "../../pages/country/country";
 import City from "../../pages/city/city";
 import Boins from "../../pages/boins/boins";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import Article from "../../pages/article/article";
 import Category from "../../pages/category/category";
 import FAQ from "../../pages/faq/faq";
@@ -33,9 +33,10 @@ const Layout = () => {
   const handleMoonClick = () => {
     setThemeMode(themeMode === "light" ? "dark" : "light");
   };
-  const { id } = useParams();
+
+  const isLarge = useMediaQuery("(min-width:725px)");
   return (
-    <Box dir={i18n.language === "ar" ? "rtl" : "ltr"}>
+    <Box dir={i18n.language === "ar" ? "rtl" : "ltr"} sx={{ width: "100%" }}>
       {showDashboard && <Navbar onMoonClick={handleMoonClick} />}
       <div className={`${showDashboard ? "flex" : ""} w-full`}>
         {showDashboard && (

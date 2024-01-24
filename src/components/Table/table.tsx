@@ -1,6 +1,6 @@
-import { Table, TableContainer, Paper, tableCellClasses } from '@mui/material';
-import { TableHeadComponent } from './tableHead';
-import TableBodyComponent from './tableBody';
+import { Table, TableContainer, Paper, tableCellClasses } from "@mui/material";
+import { TableHeadComponent } from "./tableHead";
+import TableBodyComponent from "./tableBody";
 
 interface ITableColumn {
   th: string;
@@ -27,16 +27,21 @@ const CustomTable = ({
   themeMode,
 }: ITableProps) => {
   return (
-    <TableContainer sx={{ boxShadow: 'none' }} component={Paper}>
+    <TableContainer
+      sx={{ boxShadow: "none", width: "100%", overScroll: "hidden" }}
+      component={Paper}
+    >
       <Table
         sx={{
           [`& .${tableCellClasses.root}`]: {
-            border: 'none',
+            border: "none",
           },
+          // overflow: "scroll",
+          // width: "100vw",
         }}
         aria-label="simple table"
         style={{
-          border: themeMode === 'dark' ? 'solid 1px white' : 'none',
+          border: themeMode === "dark" ? "solid 1px white" : "none",
         }}
       >
         <TableHeadComponent columns={columns} themeMode={themeMode} />
