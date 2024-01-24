@@ -1,6 +1,7 @@
 import { Button, Box } from '@mui/material';
 import { backtoLoginButton, signinButton } from '../style/style';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 interface SubmitButtonsProps {
   isSubmitting: boolean;
 }

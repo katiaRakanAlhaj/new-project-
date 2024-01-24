@@ -1,100 +1,22 @@
 {
   "users": [
     {
-      "name": "basher",
-      "email": "basheerberkdar2@gmial.com",
+      "name": "basheer berkdar",
+      "email": "basheerberkdar@gmail.com",
       "password": "123456789Ba@",
       "confirmPassword": "123456789Ba@",
-      "id": "1"
-    },
-    {
-      "name": "katia",
-      "email": "katiaalhaj54@gmail.com",
-      "password": "Password@ffa43",
-      "confirmPassword": "Password@ffa43",
-      "location": "www",
-      "phone": "233",
-      "id": "NQkz6fw"
-    },
-    {
-      "name": "katia",
-      "email": "katiaalhaj54@gmail.com",
-      "password": "Password@ffa43",
-      "confirmPassword": "Password@ffa43",
       "location": "",
       "phone": "",
-      "id": "EBDDEfD"
-    },
-    {
-      "name": "katia",
-      "email": "katiaalhaj54@gmail.com",
-      "password": "Password@ffa43",
-      "confirmPassword": "Password@ffa43",
-      "location": "",
-      "phone": "",
-      "id": "uCsqHF1"
-    },
-    {
-      "name": "katia",
-      "email": "katiaalhaj54@gmail.com",
-      "password": "Password@ffa43",
-      "confirmPassword": "Password@ffa43",
-      "location": "",
-      "phone": "",
-      "id": "-iPIdzY"
-    },
-    {
-      "name": "katia",
-      "email": "katiaalhaj54@gmail.com",
-      "password": "Password@ffa43",
-      "confirmPassword": "Password@ffa43",
-      "location": "",
-      "phone": "",
-      "id": "iOerxE-"
+      "id": 1
     }
   ],
   "profile": [
     {
-      "name": "katias",
-      "email": "katia@gmal;.com",
-      "phone": "123665543",
-      "location": "damas",
-      "id": 30
-    },
-    {
-      "name": "rama",
-      "email": "rama@gmail.com",
-      "phone": "12369",
-      "location": "aleppo",
-      "id": 86
-    },
-    {
-      "name": "katias",
-      "email": "katiaalhaj54@gmail.com",
-      "phone": "09000000000",
-      "location": "syrias",
-      "id": 87
-    },
-    {
-      "name": "katias",
-      "email": "katiaalhaj54@gmail.com",
-      "phone": "09000000000a",
-      "location": "syrias",
-      "id": 88
-    },
-    {
-      "name": "katiaz",
-      "email": "katiaalhaj54@gmail.com",
-      "phone": "09000000000a",
-      "location": "syriaz",
-      "id": 89
-    },
-    {
-      "name": "katias",
-      "email": "katiaalhaj54@gmail.com",
-      "phone": "09000000000",
-      "location": "syrias",
-      "id": 90
+      "name": "basheer berkdar",
+      "email": "basheerberkdar@gmail.com",
+      "phone": "0948522167",
+      "location": "syria",
+      "id": 1
     }
   ],
   "countries": [

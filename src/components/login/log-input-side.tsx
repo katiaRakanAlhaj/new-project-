@@ -1,16 +1,16 @@
-import { useForm } from 'react-hook-form';
-import { TLogin } from '../../api/auth/interfaces';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { schema_login } from '../schema/shcema';
-import { userApi } from '../../api/auth/api';
-import TitleWithIcons from '../title-with-icons';
-import { Box, Container, useMediaQuery } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { shawError, shawSuccess } from '../../lib/tosts';
-import { useTranslation } from 'react-i18next';
-import { form } from '../style/style';
-import SubmitButtons from '../login/loginButton';
-import GridComponent from './loginGrid';
+import { useForm } from "react-hook-form";
+import { TLogin } from "../../api/auth/interfaces";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schema_login } from "../schema/shcema";
+import { userApi } from "../../api/auth/api";
+import TitleWithIcons from "../title-with-icons";
+import { Box, Container, useMediaQuery } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { shawError, shawSuccess } from "../../lib/tosts";
+import { useTranslation } from "react-i18next";
+import { form } from "../style/style";
+import SubmitButtons from "../login/loginButton";
+import GridComponent from "./loginGrid";
 
 interface ILogInInputSide {}
 
@@ -21,7 +21,7 @@ const LogInInputSide = ({}: ILogInInputSide) => {
     control,
   } = useForm<TLogin>({
     resolver: yupResolver(schema_login),
-    defaultValues: { email: '', name: '', password: '' },
+    defaultValues: { email: "", name: "", password: "" },
   });
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -33,38 +33,38 @@ const LogInInputSide = ({}: ILogInInputSide) => {
       });
       if (user) {
         const userinfo = { name: user.name, email: user.email };
-        localStorage.setItem('user', JSON.stringify(userinfo));
-        shawSuccess(t('login successfully'));
-        navigate('/home');
+        localStorage.setItem("user", JSON.stringify(userinfo));
+        shawSuccess(t("login successfully"));
+        navigate("/home");
       } else {
-        shawError(t('failed in login'));
+        shawError(t("failed in login"));
       }
     } catch (err) {
-      shawError(t('failed in login'));
+      shawError(t("failed in login"));
     }
   };
 
   const inputs = [
     {
-      name: 'name',
-      label: t('Name'),
+      name: "name",
+      label: t("Name"),
       error: errors.name,
       errorMassage: errors.name,
     },
     {
-      name: 'email',
-      label: t('Email'),
+      name: "email",
+      label: t("Email"),
       error: errors.email,
       errorMassage: errors.email,
     },
     {
-      name: 'password',
-      label: t('Password'),
+      name: "password",
+      label: t("Password"),
       error: errors.password,
       errorMassage: errors.password,
     },
   ];
-  const isMobile = useMediaQuery('(max-width:630px)');
+  const isMobile = useMediaQuery("(max-width:900px)");
 
   return (
     <Box
@@ -76,13 +76,13 @@ const LogInInputSide = ({}: ILogInInputSide) => {
         sx={[
           form,
           {
-            height: isMobile ? '100vh' : '100%',
+            height: isMobile ? "100vh" : "100%",
           },
         ]}
       >
-        <TitleWithIcons title={t('Sign in to Account')} />
+        <TitleWithIcons title={t("Sign in to Account")} />
         <Box
-          sx={{ width: isMobile ? '100%' : '50%' }}
+          sx={{ width: isMobile ? "100%" : "50%" }}
           component="form"
           onSubmit={handleSubmit(handleFormSubmit)}
         >
