@@ -149,7 +149,7 @@ const Dashboard = ({
           >
             <MenuIcon />
           </IconButton>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Box sx={{ display: 'flex', gap: '40rem' }}>
             <Box
               sx={{
                 display: 'flex',
@@ -173,13 +173,23 @@ const Dashboard = ({
                 {t('DashBoard')}
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                justifyItems: 'flex-start',
+                alignItems: 'center',
+              }}
+            >
               <FormControl fullWidth>
                 <Select
                   id="demo-simple-select"
                   onChange={handleChange}
                   value={i18next.language}
                   size={'small'}
+                  style={{
+                    marginRight: '1rem',
+                  }}
                   inputProps={{
                     sx: {
                       color:
@@ -204,6 +214,13 @@ const Dashboard = ({
                   </Box>
                 )}
               </IconButton>
+              <Link to="/profile">
+                <img
+                  src="../images/person.png"
+                  className="w-8 h-8 mx-3 rounded-full"
+                  alt=""
+                />
+              </Link>
             </Box>
           </Box>
         </Toolbar>
@@ -294,9 +311,6 @@ const Dashboard = ({
           ))}
         </List>
       </Drawer>
-      {/* <Main open={open}>
-        <DrawerHeader />
-      </Main> */}
     </Box>
   );
 };
