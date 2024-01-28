@@ -10,9 +10,12 @@ interface IHelloFreinds {
 const HelloFriendSide = ({ buttonText, navigateTo }: IHelloFreinds) => {
   return (
     <Hidden mdDown>
-      <Box sx={{ flex: '1' }}>
+      <Box sx={{ flex: 1 }}>
         <Box className="background">
-          <img src="../images/ils1.488442d7.svg" />
+          <img
+            src="../images/ils1.488442d7.svg"
+            style={{ width: '100%', height: '100%' }}
+          />
           <Link to={navigateTo}>
             <Button
               type="submit"

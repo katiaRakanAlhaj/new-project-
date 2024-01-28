@@ -1,12 +1,13 @@
+import { Box } from '@mui/material';
 import HelloFriendSide from '../hello-friend-side';
 import LogInInputSide from './log-input-side';
 
 function Login() {
   return (
-    <div className="flex">
+    <Box sx={{ display: 'flex' }}>
       <LogInInputSide />
       <HelloFriendSide buttonText="sign up" navigateTo="/" />
-    </div>
+    </Box>
   );
 }
 

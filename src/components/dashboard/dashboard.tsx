@@ -1,24 +1,25 @@
-import * as React from "react";
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import i18next from "i18next";
-import { useMediaQuery, useTheme } from "@mui/material";
-import { Icon } from "../style/style";
-
+import * as React from 'react';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import CssBaseline from '@mui/material/CssBaseline';
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import List from '@mui/material/List';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import i18next from 'i18next';
+import { Button, useMediaQuery, useTheme } from '@mui/material';
+import { Icon } from '../style/style';
+import Avatar from '@mui/material/Avatar';
+import Modal from './logout';
 import {
   CountryIcon,
   HomeIcon,
@@ -29,37 +30,33 @@ import {
   IconUser,
   LogoutIcon,
   MoneyIcon,
-} from "../../icons/icon";
-import { shawSuccess } from "../../lib/tosts";
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
-import { FormControl, MenuItem, Select } from "@mui/material";
-import { buttonIcon } from "../style/style";
-import { CiDark, CiLight } from "react-icons/ci";
-
+} from '../../icons/icon';
+import { shawSuccess } from '../../lib/tosts';
+import { useTranslation } from 'react-i18next';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { FormControl, MenuItem, Select } from '@mui/material';
+import { buttonIcon } from '../style/style';
+import { CiDark, CiLight } from 'react-icons/ci';
 const drawerWidth = 240;
-
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
-
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
+  shouldForwardProp: (prop) => prop !== 'open',
 })<AppBarProps>(({ theme, open }) => ({
-  transition: theme.transitions.create(["margin", "width"], {
+  transition: theme.transitions.create(['margin', 'width'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(["margin", "width"], {
+    transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
 }));
-
 const Dashboard = ({
   themeMode,
   onMoonClick,
@@ -67,55 +64,55 @@ const Dashboard = ({
   themeMode: string;
   onMoonClick: Function;
 }) => {
-  const DrawerHeader = styled("div")(({ theme }) => ({
-    display: "flex",
-    alignItems: "center",
+  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const DrawerHeader = styled('div')(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
     backgroundColor:
-      themeMode == "dark"
+      themeMode == 'dark'
         ? theme.palette.primary.dark
         : theme.palette.primary.light,
   }));
-
   const { t } = useTranslation();
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    shawSuccess(t("logout successfully"));
+    localStorage.removeItem('user');
+    shawSuccess(t('logout successfully'));
+    navigate('login');
   };
   const theme = useTheme();
-
   const [isDarkMode, setIsDarkMode] = React.useState(
-    theme.palette.mode === "dark"
+    theme.palette.mode === 'dark'
   );
-
   const handleChange = () => {
-    if (i18next.language === "ar") {
-      i18next.changeLanguage("en");
-      localStorage.setItem("language", "en");
+    if (i18next.language === 'ar') {
+      i18next.changeLanguage('en');
+      localStorage.setItem('language', 'en');
     } else {
-      i18next.changeLanguage("ar");
-      localStorage.setItem("language", "ar");
+      i18next.changeLanguage('ar');
+      localStorage.setItem('language', 'ar');
     }
   };
   const handleClick = () => {
-    const newMode = theme.palette.mode === "light" ? "dark" : "light";
+    const newMode = theme.palette.mode === 'light' ? 'dark' : 'light';
     theme.palette.mode = newMode;
     setIsDarkMode(!isDarkMode);
     onMoonClick(newMode);
   };
   const sideBarLinks = [
-    { id: 0, to: "/home", icon: <HomeIcon />, text: t("Home") },
-    { id: 1, to: "/country", icon: <CountryIcon />, text: t("Country") },
-    { id: 2, to: "/city", icon: <CountryIcon />, text: t("City") },
-    { id: 3, to: "/boins", icon: <MoneyIcon />, text: t("Boins") },
-    { id: 4, to: "/logout", icon: <LogoutIcon />, text: t("Logout") },
-    { id: 5, to: "/article", icon: <IconArticle />, text: t("Article") },
-    { id: 6, to: "/category", icon: <IconCategory />, text: t("category") },
-    { id: 6, to: "/faq", icon: <IconFaq />, text: t("FAQ") },
-    { id: 7, to: "/service", icon: <IconService />, text: t("Service") },
-    { id: 8, to: "/user", icon: <IconUser />, text: t("User") },
+    { id: 0, to: '/home', icon: <HomeIcon />, text: t('Home') },
+    { id: 1, to: '/country', icon: <CountryIcon />, text: t('Country') },
+    { id: 2, to: '/city', icon: <CountryIcon />, text: t('City') },
+    { id: 3, to: '/boins', icon: <MoneyIcon />, text: t('Boins') },
+    { id: 4, to: '/article', icon: <IconArticle />, text: t('Article') },
+    { id: 5, to: '/category', icon: <IconCategory />, text: t('category') },
+    { id: 6, to: '/faq', icon: <IconFaq />, text: t('FAQ') },
+    { id: 7, to: '/service', icon: <IconService />, text: t('Service') },
+    { id: 8, to: '/user', icon: <IconUser />, text: t('User') },
+    { id: 9, to: '/logout', icon: <LogoutIcon />, text: t('Logout') },
   ];
 
   const [open, setOpen] = React.useState(false);
@@ -125,18 +122,22 @@ const Dashboard = ({
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
-  const isMobile = useMediaQuery("(max-width:600px)");
-
+  const isMobile = useMediaQuery('(max-width:600px)');
+  const handleAvatarClick = () => {
+    setIsModalOpen(true);
+  };
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar
         position="fixed"
         open={open}
         sx={{
           backgroundColor:
-            themeMode === "dark"
+            themeMode === 'dark'
               ? theme.palette.primary.dark
               : theme.palette.primary.light,
         }}
@@ -149,24 +150,24 @@ const Dashboard = ({
             edge="start"
             sx={{
               mr: 2,
-              ...(open && { display: "none" }),
+              ...(open && { display: 'none' }),
             }}
           >
             <MenuIcon />
           </IconButton>
           <Box
             sx={{
-              display: "flex",
-              justifyContent: isMobile ? "flex-end" : "space-between",
-              width: "100%",
+              display: 'flex',
+              justifyContent: isMobile ? 'flex-end' : 'space-between',
+              width: '100%',
             }}
           >
             {!isMobile && (
               <Box
                 sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
                 component="div"
               >
@@ -174,25 +175,24 @@ const Dashboard = ({
                 <Typography
                   style={{
                     color:
-                      themeMode === "dark"
+                      themeMode === 'dark'
                         ? theme.palette.primary.light
                         : theme.palette.primary.dark,
                   }}
                   variant="h6"
                   color="black"
-                  sx={{ marginLeft: "1rem" }}
+                  sx={{ marginLeft: '1rem' }}
                 >
-                  {t("DashBoard")}
+                  {t('DashBoard')}
                 </Typography>
               </Box>
             )}
-
             <Box
               sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                justifyItems: "flex-start",
-                alignItems: "center",
+                display: 'flex',
+                justifyContent: 'space-between',
+                justifyItems: 'flex-start',
+                alignItems: 'center',
               }}
             >
               <FormControl fullWidth>
@@ -200,21 +200,21 @@ const Dashboard = ({
                   id="demo-simple-select"
                   onChange={handleChange}
                   value={i18next.language}
-                  size={"small"}
+                  size={'small'}
                   style={{
-                    marginRight: "1rem",
+                    marginRight: '1rem',
                   }}
                   inputProps={{
                     sx: {
                       color:
-                        theme.palette.mode == "dark"
+                        theme.palette.mode == 'dark'
                           ? theme.palette.primary.light
-                          : "grey",
+                          : 'grey',
                     },
                   }}
                 >
-                  <MenuItem value="ar">{t("arabic")}</MenuItem>
-                  <MenuItem value="en">{t("english")}</MenuItem>
+                  <MenuItem value="ar">{t('arabic')}</MenuItem>
+                  <MenuItem value="en">{t('english')}</MenuItem>
                 </Select>
               </FormControl>
               <IconButton onClick={handleClick} sx={buttonIcon}>
@@ -235,6 +235,59 @@ const Dashboard = ({
                   alt=""
                 />
               </Link>
+              <Avatar
+                onClick={handleAvatarClick}
+                sx={{
+                  width: '35px',
+                  height: '35px',
+                  marginLeft: '1rem',
+                  marginTop: '-0.3rem',
+                  backgroundColor: '#EFF6FF',
+                  color: 'black',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                }}
+              >
+                lg
+              </Avatar>
+              <Modal onClose={handleModalClose} openModal={isModalOpen}>
+                <Box
+                  sx={{
+                    width: '500px',
+                    height: '200px',
+                    backgroundColor: '#fff',
+                    borderRadius: '5px',
+                    padding: '20px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                    {t('Are you sure you want to logout?')}
+                  </Typography>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      width: '100%',
+                      marginTop: '2rem',
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      sx={{ marginRight: '10px' }}
+                      onClick={handleModalClose}
+                    >
+                      {t('No')}
+                    </Button>
+                    <Button variant="contained" onClick={handleLogout}>
+                      {t('Yes')}
+                    </Button>
+                  </Box>
+                </Box>
+              </Modal>
             </Box>
           </Box>
         </Toolbar>
@@ -243,11 +296,11 @@ const Dashboard = ({
         sx={{
           width: open ? drawerWidth : 0,
           flexShrink: 0,
-          "& .MuiDrawer-paper": {
+          '& .MuiDrawer-paper': {
             width: drawerWidth,
-            boxSizing: "border-box",
+            boxSizing: 'border-box',
             backgroundColor:
-              themeMode === "dark"
+              themeMode === 'dark'
                 ? theme.palette.primary.dark
                 : theme.palette.primary.light,
           },
@@ -258,11 +311,11 @@ const Dashboard = ({
       >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
+            {theme.direction === 'ltr' ? (
               <ChevronLeftIcon
                 sx={{
                   color:
-                    themeMode == "dark"
+                    themeMode == 'dark'
                       ? theme.palette.primary.light
                       : theme.palette.primary.dark,
                 }}
@@ -279,28 +332,28 @@ const Dashboard = ({
               key={sideBarlink.id}
               button
               component={Link}
-              to={sideBarlink.to === "/logout" ? "/login" : sideBarlink.to}
-              onClick={sideBarlink.to === "/logout" ? handleLogout : undefined}
+              to={sideBarlink.to === '/logout' ? '/login' : sideBarlink.to}
+              onClick={sideBarlink.to === '/logout' ? handleLogout : undefined}
               sx={{
-                "&:hover": {
-                  backgroundColor: "gray",
-                  opacity: "0.7",
-                  transition: "all 500ms ease-in-out",
-                  borderRadius: "5px",
-                  "& .MuiListItemIcon-root": {
-                    color: "white",
+                '&:hover': {
+                  backgroundColor: 'gray',
+                  opacity: '0.7',
+                  transition: 'all 500ms ease-in-out',
+                  borderRadius: '5px',
+                  '& .MuiListItemIcon-root': {
+                    color: 'white',
                   },
-                  "& .MuiTypography-root": {
-                    color: "white",
+                  '& .MuiTypography-root': {
+                    color: 'white',
                   },
                 },
               }}
             >
               <ListItemIcon
-                sx={{ color: "#475569" }}
+                sx={{ color: '#475569' }}
                 style={{
                   color:
-                    themeMode === "dark"
+                    themeMode === 'dark'
                       ? theme.palette.primary.light
                       : theme.palette.primary.dark,
                 }}
@@ -310,12 +363,12 @@ const Dashboard = ({
               <ListItemText>
                 <Typography
                   sx={{
-                    fontWeight: "bold",
+                    fontWeight: 'bold',
                     color:
-                      themeMode === "dark"
+                      themeMode === 'dark'
                         ? theme.palette.primary.light
                         : theme.palette.primary.dark,
-                    fontSize: "14px",
+                    fontSize: '14px',
                   }}
                 >
                   {sideBarlink.text}
@@ -328,5 +381,4 @@ const Dashboard = ({
     </Box>
   );
 };
-
 export default Dashboard;

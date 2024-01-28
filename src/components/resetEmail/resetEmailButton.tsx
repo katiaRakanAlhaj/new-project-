@@ -1,7 +1,7 @@
-import { Button, Box } from "@mui/material";
-import { backtoLoginButton, signinButton } from "../style/style";
-import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import { Button, Box } from '@mui/material';
+import { backtoLoginButton, signinButton } from '../style/style';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface SubmitButtonsProps {
   isSubmitting: boolean;
@@ -10,14 +10,14 @@ interface SubmitButtonsProps {
 const SubmitButtons = ({ isSubmitting }: SubmitButtonsProps) => {
   const { t } = useTranslation();
   return (
-    <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
       <Button
         variant="contained"
         sx={signinButton}
         type="submit"
         disabled={isSubmitting}
       >
-        {t("sign in")}
+        {t('reset email')}
       </Button>
       <Link to="/login">
         <Button
@@ -26,7 +26,7 @@ const SubmitButtons = ({ isSubmitting }: SubmitButtonsProps) => {
           type="submit"
           disabled={isSubmitting}
         >
-          {t("back to login")}
+          {t('back to login')}
         </Button>
       </Link>
     </Box>
