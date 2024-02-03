@@ -1,5 +1,5 @@
 import React from 'react';
-import { TableCell, TableRow, TableBody } from '@mui/material';
+import { TableCell, TableRow, TableBody, Box, Icon } from '@mui/material';
 import { IconDelete, IconEdit } from '../../icons/icon';
 import { useTheme } from '@mui/material';
 
@@ -13,8 +13,8 @@ interface ITableRow {
 }
 
 interface ITableBodyComponentProps {
-  data: ITableRow[];
   columns: ITableColumn[];
+  data: ITableRow[];
   handleDelete: (id?: number) => void;
   handleUpdate: (id?: number) => void;
   themeMode: string;
@@ -55,20 +55,25 @@ const TableBodyComponent: React.FC<ITableBodyComponentProps> = ({
                   }}
                 >
                   {row.id && (
-                    <div className="flex justify-between">
-                      <button
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Icon
                         onClick={() => handleUpdate(row.id)}
-                        className="w-9 h-9 bg-white rounded-full flex justify-center text-center items-center cursor-pointer"
+                        sx={{ marginRight: '1rem', cursor: 'pointer' }}
                       >
                         <IconEdit />
-                      </button>
-                      <button
+                      </Icon>
+                      <Icon
                         onClick={() => handleDelete(row.id)}
-                        className="w-9 h-9 bg-white rounded-full flex justify-center text-center items-center cursor-pointer"
+                        sx={{ cursor: 'pointer' }}
                       >
                         <IconDelete />
-                      </button>
-                    </div>
+                      </Icon>
+                    </Box>
                   )}
                 </TableCell>
               );

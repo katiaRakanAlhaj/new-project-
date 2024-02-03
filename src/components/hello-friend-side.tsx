@@ -16,7 +16,7 @@ const HelloFriendSide = ({ buttonText, navigateTo }: IHelloFreinds) => {
             src="../images/ils1.488442d7.svg"
             style={{ width: '100%', height: '100%' }}
           />
-          <Link to={navigateTo}>
+          <Link to={navigateTo} style={{ textDecoration: 'none' }}>
             <Button
               type="submit"
               variant="contained"

@@ -19,7 +19,7 @@ const SubmitButtons = ({ isSubmitting }: SubmitButtonsProps) => {
       >
         {t('reset email')}
       </Button>
-      <Link to="/login">
+      <Link to="/login" style={{ textDecoration: 'none' }}>
         <Button
           variant="contained"
           sx={backtoLoginButton}

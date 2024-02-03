@@ -22,9 +22,15 @@ import { GrMapLocation } from 'react-icons/gr';
 import { FaUserEdit } from 'react-icons/fa';
 import { HiUsers } from 'react-icons/hi2';
 
-export const WhatsUpIcon = () => <BsWhatsapp size={'25px'} className="mx-2" />;
-export const TwitterIcon = () => <LuTwitter size={'25px'} className="mx-2" />;
-export const FaceIcon = () => <FaFacebook size={'25px'} className="mx-2" />;
+export const WhatsUpIcon = () => (
+  <BsWhatsapp size={'25px'} style={{ marginRight: '0.5rem' }} />
+);
+export const TwitterIcon = () => (
+  <LuTwitter size={'25px'} style={{ marginRight: '0.5rem' }} />
+);
+export const FaceIcon = () => (
+  <FaFacebook size={'25px'} style={{ marginRight: '0.5rem' }} />
+);
 export const HomeIcon = () => <MdHome size={'25px'} />;
 export const CountryIcon = () => <LiaCitySolid size={'25px'} />;
 export const MoneyIcon = () => <RiMoneyPoundCircleFill size={'25px'} />;

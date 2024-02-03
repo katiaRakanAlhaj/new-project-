@@ -1,17 +1,9 @@
 import { useEffect, useState } from 'react';
 import useCities, { cityQueries } from '../../api/cities/query';
 import { shawError, shawSuccess } from '../../lib/tosts';
-import Table from '../../components/Table/table';
-import { Box, Button, Typography } from '@mui/material';
-import Modal from '../models/model';
+import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import {
-  AddButton,
-  container,
-  flexContainer,
-  formInput,
-  popup,
-} from '../../components/style/style';
+import { container, formInput } from '../../components/style/style';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import {
@@ -25,8 +17,9 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema_city } from '../../components/schema/shcema';
 import { useTheme } from '@mui/material';
-import MyForm from '../form/formInput';
-import Search from '../boins/search';
+import Header from '../../components/Header/Header';
+import Body from '../../components/body/body';
+import ButtonComponent from './addNewCity';
 
 const City = ({ themeMode }: { themeMode: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -155,95 +148,36 @@ const City = ({ themeMode }: { themeMode: string }) => {
             : theme.palette.background.default,
       }}
     >
-      <Box sx={flexContainer}>
-        <Box>
-          <Typography
-            style={{
-              color:
-                themeMode === 'dark'
-                  ? theme.palette.primary.light
-                  : theme.palette.primary.dark,
-            }}
-            variant="h6"
-            sx={{ fontWeight: 'bold' }}
-          >
-            {t('My City')}
-          </Typography>
-        </Box>
-        <Box>
-          <Search
-            label={t('Search For City')}
-            size={'small'}
-            value={searchValue}
-            onChange={handleSearchChange}
-            themeMode={themeMode}
-          />
-        </Box>
-        <Box>
-          <Button
-            style={{ backgroundColor: theme.palette.primary.main }}
-            variant="contained"
-            sx={AddButton}
-            onClick={toggleModal}
-          >
-            {t('Add New City')}
-          </Button>
-        </Box>
-      </Box>
-      <Table
+      <Header
+        themeMode={themeMode}
+        searchValue={searchValue}
+        handleSearchChange={handleSearchChange}
+        label={t('Search For City')}
+        title={t('My City')}
+        toggleModal={toggleModal}
+        titleButton={t('Add New City')}
+      />
+      <Body
         columns={columns}
         data={filteredData}
         handleDelete={handleDelete}
         handleUpdate={handleUpdate}
         themeMode={themeMode}
       />
-      {isModalOpen && (
-        <Modal onClose={toggleModal} openModal={isModalOpen}>
-          {isLoadingCity ? (
-            <div>loading...</div>
-          ) : (
-            <Box
-              component="form"
-              onSubmit={handleSubmit(handleFormSubmit)}
-              sx={popup}
-              style={{
-                backgroundColor:
-                  themeMode === 'dark'
-                    ? theme.palette.primary.dark
-                    : theme.palette.primary.light,
-                border: themeMode === 'dark' ? 'solid 1px white' : 'none',
-              }}
-            >
-              <Typography
-                style={{
-                  color:
-                    themeMode === 'dark'
-                      ? theme.palette.primary.light
-                      : theme.palette.primary.dark,
-                }}
-                variant="h6"
-                sx={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}
-              >
-                {selectedId > 0 ? t('Update City') : t('Add New City')}
-              </Typography>
-              <MyForm
-                control={control}
-                formInput={formInput}
-                inputs={inputs}
-                themeMode={themeMode}
-              />
-              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Button type="submit" variant="contained" size="small">
-                  {t('Submit')}
-                </Button>
-                <Button onClick={toggleModal} variant="contained" size="small">
-                  {t('Close')}
-                </Button>
-              </Box>
-            </Box>
-          )}
-        </Modal>
-      )}
+      <ButtonComponent
+        themeMode={themeMode}
+        isModalOpen={isModalOpen}
+        toggleModal={toggleModal}
+        handleSubmit={handleSubmit}
+        handleFormSubmit={handleFormSubmit}
+        control={control}
+        formInput={formInput}
+        inputs={inputs}
+        errors={errors}
+        selectedId={selectedId}
+        isLoadingCity={isLoadingCity}
+        reset={reset}
+      />
     </Box>
   );
 };

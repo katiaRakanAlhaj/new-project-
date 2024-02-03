@@ -6,20 +6,13 @@ import { useForm } from 'react-hook-form';
 import { userProfileApi } from '../../api/profile/api';
 import { shawError, shawSuccess } from '../../lib/tosts';
 import { useTheme } from '@mui/material';
-import { Box, Button, Typography } from '@mui/material';
-import {
-  AddButton,
-  container,
-  flexContainer,
-  formInput,
-  popup,
-} from '../../components/style/style';
-import MyForm from '../form/formInput';
-import Table from '../../components/Table/table';
-import Modal from '../models/model';
-import Search from '../boins/search';
+import { Box } from '@mui/material';
+import { container, formInput } from '../../components/style/style';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema_user } from '../../components/schema/shcema';
+import Header from '../../components/Header/Header';
+import Body from '../../components/body/body';
+import ButtonComponent from './AddNewUser';
 
 const Users = ({ themeMode }: { themeMode: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -155,90 +148,36 @@ const Users = ({ themeMode }: { themeMode: string }) => {
             : theme.palette.background.default,
       }}
     >
-      <Box sx={flexContainer}>
-        <Box>
-          <Typography
-            style={{
-              color:
-                themeMode === 'dark'
-                  ? theme.palette.primary.light
-                  : theme.palette.primary.dark,
-            }}
-            variant="h6"
-            sx={{ fontWeight: 'bold' }}
-          >
-            {t('My Boin')}
-          </Typography>
-        </Box>
-        <Box>
-          <Search
-            label={t('Search For user')}
-            size={'small'}
-            value={searchValue}
-            onChange={handleSearchChange}
-            themeMode={themeMode}
-          />
-        </Box>
-        <Box>
-          <Button variant="contained" sx={AddButton} onClick={toggleModal}>
-            {t('Add New User')}
-          </Button>
-        </Box>
-      </Box>
-      <Table
+      <Header
+        themeMode={themeMode}
+        searchValue={searchValue}
+        handleSearchChange={handleSearchChange}
+        label={t('Search For User')}
+        title={t('My User')}
+        toggleModal={toggleModal}
+        titleButton={t('Add New User')}
+      />
+      <Body
         columns={columns}
         data={filteredData}
         handleDelete={handleDelete}
         handleUpdate={handleUpdate}
         themeMode={themeMode}
       />
-      {isModalOpen && (
-        <Modal onClose={toggleModal} openModal={isModalOpen}>
-          {isLoadingUser ? (
-            <div>loading...</div>
-          ) : (
-            <Box
-              component="form"
-              onSubmit={handleSubmit(handleFormSubmit)}
-              sx={popup}
-              style={{
-                backgroundColor:
-                  themeMode === 'dark'
-                    ? theme.palette.primary.dark
-                    : theme.palette.primary.light,
-                border: themeMode === 'dark' ? 'solid 1px white' : 'none',
-              }}
-            >
-              <Typography
-                style={{
-                  color:
-                    themeMode === 'dark'
-                      ? theme.palette.primary.light
-                      : theme.palette.primary.dark,
-                }}
-                variant="h6"
-                sx={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}
-              >
-                {selectedId > 0 ? t('Update User') : t('Add New User')}
-              </Typography>
-              <MyForm
-                control={control}
-                formInput={formInput}
-                inputs={inputs}
-                themeMode={themeMode}
-              />
-              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Button type="submit" variant="contained" size="small">
-                  {t('Submit')}
-                </Button>
-                <Button onClick={toggleModal} variant="contained" size="small">
-                  {t('Close')}
-                </Button>
-              </Box>
-            </Box>
-          )}
-        </Modal>
-      )}
+      <ButtonComponent
+        themeMode={themeMode}
+        isModalOpen={isModalOpen}
+        toggleModal={toggleModal}
+        handleSubmit={handleSubmit}
+        handleFormSubmit={handleFormSubmit}
+        control={control}
+        formInput={formInput}
+        inputs={inputs}
+        errors={errors}
+        selectedId={selectedId}
+        isLoadingUser={isLoadingUser}
+        reset={reset}
+      />
     </Box>
   );
 };

@@ -20,7 +20,7 @@ const SubmitButtons = ({ isSubmitting }: SubmitButtonsProps) => {
           {t('sign in')}
         </Button>
 
-        <Link to="/login">
+        <Link to="/login" style={{ textDecoration: 'none' }}>
           <Button
             variant="contained"
             sx={backtoLoginButton}

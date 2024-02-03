@@ -131,4 +131,5 @@ export const cardInfo = {
   height: '50vh',
   padding: '1.5rem',
   borderRadius: '5px',
+  marginBottom:'2rem'
 };

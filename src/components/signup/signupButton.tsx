@@ -26,7 +26,10 @@ const SubmitButtons = ({ isSubmitting }: SubmitButtonsProps) => {
           control={<Checkbox sx={{ fontWeight: 'bold' }} />}
           label={t('remember me')}
         />
-        <Link to="/reset-email">
+        <Link
+          to="/reset-email"
+          style={{ textDecoration: 'none', color: 'black' }}
+        >
           <Typography
             sx={{
               fontWeight: 'bold',

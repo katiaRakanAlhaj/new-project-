@@ -144,13 +144,16 @@ const Dashboard = ({
       >
         <Toolbar>
           <IconButton
-            color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
             sx={{
               mr: 2,
               ...(open && { display: 'none' }),
+              color:
+                themeMode === 'dark'
+                  ? theme.palette.primary.light
+                  : theme.palette.primary.dark,
             }}
           >
             <MenuIcon />

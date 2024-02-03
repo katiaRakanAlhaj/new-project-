@@ -3,23 +3,16 @@ import { useTranslation } from 'react-i18next';
 import { categoryQueries } from '../../api/categories/query';
 import { CategoryApi } from '../../api/categories/api';
 import { shawError, shawSuccess } from '../../lib/tosts';
-import { Box, Button, Typography } from '@mui/material';
-import {
-  AddButton,
-  container,
-  flexContainer,
-  formInput,
-  popup,
-} from '../../components/style/style';
-import Table from '../../components/Table/table';
-import Modal from '../models/model';
+import { Box } from '@mui/material';
+import { container, formInput } from '../../components/style/style';
 import { useForm } from 'react-hook-form';
 import { ICategory } from '../../api/categories/interfaces';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema_category } from '../../components/schema/shcema';
 import { useTheme } from '@mui/material';
-import MyForm from '../form/formInput';
-import Search from '../boins/search';
+import Header from '../../components/Header/Header';
+import Body from '../../components/body/body';
+import ButtonComponent from './AddNewCategory';
 const Category = ({ themeMode }: { themeMode: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
@@ -125,91 +118,37 @@ const Category = ({ themeMode }: { themeMode: string }) => {
             : theme.palette.background.default,
       }}
     >
-      <Box sx={flexContainer}>
-        <Box>
-          <Typography
-            style={{
-              color:
-                themeMode === 'dark'
-                  ? theme.palette.primary.light
-                  : theme.palette.primary.dark,
-            }}
-            variant="h6"
-            sx={{ fontWeight: 'bold' }}
-          >
-            {t('My Category')}
-          </Typography>
-        </Box>
-        <Box>
-          <Search
-            label={t('Search For Category')}
-            size={'small'}
-            value={searchValue}
-            onChange={handleSearchChange}
-            themeMode={themeMode}
-          />
-        </Box>
-        <Box>
-          <Button variant="contained" sx={AddButton} onClick={toggleModal}>
-            {t('Add New Category')}
-          </Button>
-        </Box>
-      </Box>
+      <Header
+        themeMode={themeMode}
+        searchValue={searchValue}
+        handleSearchChange={handleSearchChange}
+        label={t('Search For Category')}
+        title={t('My Category')}
+        toggleModal={toggleModal}
+        titleButton={t('Add New Category')}
+      />
 
-      <Table
+      <Body
         columns={columns}
         data={filteredData}
         handleDelete={handleDelete}
         handleUpdate={handleUpdate}
         themeMode={themeMode}
       />
-      {isModalOpen && (
-        <Modal onClose={toggleModal} openModal={isModalOpen}>
-          {isLoadingCategory ? (
-            <div>loading...</div>
-          ) : (
-            <Box
-              component="form"
-              onSubmit={handleSubmit(handleFormSubmit)}
-              sx={popup}
-              style={{
-                backgroundColor:
-                  themeMode === 'dark'
-                    ? theme.palette.primary.dark
-                    : theme.palette.primary.light,
-                border: themeMode === 'dark' ? 'solid 1px white' : 'none',
-              }}
-            >
-              <Typography
-                style={{
-                  color:
-                    themeMode === 'dark'
-                      ? theme.palette.primary.light
-                      : theme.palette.primary.dark,
-                }}
-                variant="h6"
-                sx={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}
-              >
-                {selectedId > 0 ? t('Update Category') : t('Add New category')}
-              </Typography>
-              <MyForm
-                control={control}
-                formInput={formInput}
-                inputs={inputs}
-                themeMode={themeMode}
-              />
-              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Button type="submit" variant="contained" size="small">
-                  {t('Submit')}
-                </Button>
-                <Button onClick={toggleModal} variant="contained" size="small">
-                  {t('Close')}
-                </Button>
-              </Box>
-            </Box>
-          )}
-        </Modal>
-      )}
+      <ButtonComponent
+        themeMode={themeMode}
+        isModalOpen={isModalOpen}
+        toggleModal={toggleModal}
+        handleSubmit={handleSubmit}
+        handleFormSubmit={handleFormSubmit}
+        control={control}
+        formInput={formInput}
+        inputs={inputs}
+        errors={errors}
+        selectedId={selectedId}
+        isLoadingCategory={isLoadingCategory}
+        reset={reset}
+      />
     </Box>
   );
 };

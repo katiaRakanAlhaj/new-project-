@@ -1,5 +1,4 @@
 import Modal from '../models/model';
-import Table from '../../components/Table/table';
 import {
   Autocomplete,
   Box,
@@ -9,13 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import {
-  flexContainer,
-  container,
-  AddButton,
-  popup,
-  formInput,
-} from '../../components/style/style';
+import { container, popup, formInput } from '../../components/style/style';
 import { useEffect, useState } from 'react';
 import useFAQS, { faqQueries } from '../../api/FAQ/query';
 import { FaqApi } from '../../api/FAQ/api';
@@ -26,8 +19,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { schema_faq } from '../../components/schema/shcema';
 import { categoryQueries } from '../../api/categories/query';
 import { useTheme } from '@mui/material';
-import Search from '../boins/search';
 import { ICategory } from '../../api/categories/interfaces';
+import Header from '../../components/Header/Header';
+import Body from '../../components/body/body';
 
 const FAQ = ({ themeMode }: { themeMode: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -160,37 +154,16 @@ const FAQ = ({ themeMode }: { themeMode: string }) => {
             : theme.palette.background.default,
       }}
     >
-      <Box sx={flexContainer}>
-        <Box>
-          <Typography
-            style={{
-              color:
-                themeMode === 'dark'
-                  ? theme.palette.primary.light
-                  : theme.palette.primary.dark,
-            }}
-            variant="h6"
-            sx={{ fontWeight: 'bold' }}
-          >
-            {t('My Faq')}
-          </Typography>
-        </Box>
-        <Box>
-          <Search
-            label={t('Search For Faq')}
-            size={'small'}
-            value={searchValue}
-            onChange={handleSearchChange}
-            themeMode={themeMode}
-          />
-        </Box>
-        <Box>
-          <Button variant="contained" sx={AddButton} onClick={toggleModal}>
-            {t('Add New Faq')}
-          </Button>
-        </Box>
-      </Box>
-      <Table
+      <Header
+        themeMode={themeMode}
+        searchValue={searchValue}
+        handleSearchChange={handleSearchChange}
+        label={t('Search For Faq')}
+        title={t('My Faq')}
+        toggleModal={toggleModal}
+        titleButton={t('Add New Faq')}
+      />
+      <Body
         columns={columns}
         data={newData}
         handleDelete={handleDelete}

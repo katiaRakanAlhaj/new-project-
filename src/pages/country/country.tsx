@@ -1,17 +1,9 @@
 import { useEffect, useState } from 'react';
-import Modal from '../models/model';
 import useCountries, { countryQueries } from '../../api/countries/query';
 import { shawError, shawSuccess } from '../../lib/tosts';
-import Table from '../../components/Table/table';
-import { Button, Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import {
-  AddButton,
-  container,
-  flexContainer,
-  formInput,
-  popup,
-} from '../../components/style/style';
+import { container, formInput } from '../../components/style/style';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import {
@@ -25,8 +17,9 @@ import { ICountry } from '../../api/countries/interfaces';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema_country } from '../../components/schema/shcema';
 import { useTheme } from '@mui/material';
-import MyForm from '../form/formInput';
-import Search from '../boins/search';
+import Header from '../../components/Header/Header';
+import Body from '../../components/body/body';
+import ButtonComponent from './addNewCountry';
 
 const Country = ({ themeMode }: { themeMode: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,9 +27,7 @@ const Country = ({ themeMode }: { themeMode: string }) => {
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
-
   const countries = useSelector((state: RootState) => state.country.countries);
-
   const filteredData = countries.filter((item) =>
     item.name.toLowerCase().includes(searchValue.toLowerCase())
   );
@@ -69,9 +60,7 @@ const Country = ({ themeMode }: { themeMode: string }) => {
       setValue('id', country.id);
     }
   }, [selectedId, country]);
-
   const dispatch = useDispatch<AppDispatch>();
-
   const handleFormSubmit = async (data: ICountry) => {
     try {
       if (selectedId > 0) {
@@ -88,14 +77,13 @@ const Country = ({ themeMode }: { themeMode: string }) => {
       refetch();
       setSelectedId(0);
       toggleModal();
-      reset();
       dispatch(fetchCountry());
+      reset();
     } catch (error) {
       console.error('Error:', error);
       shawError('error');
     }
   };
-
   const handleDelete = async (selectedId?: number) => {
     try {
       if (selectedId) {
@@ -107,7 +95,6 @@ const Country = ({ themeMode }: { themeMode: string }) => {
       shawError(t('failed in delete country'));
     }
   };
-
   const handleUpdate = (id?: number) => {
     if (id) {
       setSelectedId(id);
@@ -117,13 +104,11 @@ const Country = ({ themeMode }: { themeMode: string }) => {
   const handleSearchChange = (event: any) => {
     setSearchValue(event.target.value);
   };
-
   useEffect(() => {
     if (SelectedCountries) {
       dispatch(fetchCountry());
     }
   }, [dispatch]);
-
   const columns = [
     { th: t('ID'), key: 'id' },
     { th: t('Name'), key: 'name' },
@@ -155,90 +140,36 @@ const Country = ({ themeMode }: { themeMode: string }) => {
             : theme.palette.background.default,
       }}
     >
-      <Box sx={flexContainer}>
-        <Box>
-          <Typography
-            style={{
-              color:
-                themeMode === 'dark'
-                  ? theme.palette.primary.light
-                  : theme.palette.primary.dark,
-            }}
-            variant="h6"
-            sx={{ fontWeight: 'bold' }}
-          >
-            {t('My Country')}
-          </Typography>
-        </Box>
-        <Box>
-          <Search
-            label={t('Search For Boin')}
-            size={'small'}
-            value={searchValue}
-            onChange={handleSearchChange}
-            themeMode={themeMode}
-          />
-        </Box>
-        <Box>
-          <Button variant="contained" sx={AddButton} onClick={toggleModal}>
-            {t('Add New Country')}
-          </Button>
-        </Box>
-      </Box>
-      <Table
+      <Header
+        themeMode={themeMode}
+        searchValue={searchValue}
+        handleSearchChange={handleSearchChange}
+        label={t('Search For Country')}
+        title={t('My Country')}
+        toggleModal={toggleModal}
+        titleButton={t('Add New Country')}
+      />
+      <Body
         columns={columns}
         data={filteredData}
         handleDelete={handleDelete}
         handleUpdate={handleUpdate}
         themeMode={themeMode}
       />
-      {isModalOpen && (
-        <Modal onClose={toggleModal} openModal={isModalOpen}>
-          {isLoadingCountry ? (
-            <div>loading...</div>
-          ) : (
-            <Box
-              component="form"
-              onSubmit={handleSubmit(handleFormSubmit)}
-              sx={popup}
-              style={{
-                backgroundColor:
-                  themeMode === 'dark'
-                    ? theme.palette.primary.dark
-                    : theme.palette.primary.light,
-                border: themeMode === 'dark' ? 'solid 1px white' : 'none',
-              }}
-            >
-              <Typography
-                style={{
-                  color:
-                    themeMode === 'dark'
-                      ? theme.palette.primary.light
-                      : theme.palette.primary.dark,
-                }}
-                variant="h6"
-                sx={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}
-              >
-                {selectedId > 0 ? t('Update Country') : t('Add New Country')}
-              </Typography>
-              <MyForm
-                control={control}
-                formInput={formInput}
-                inputs={inputs}
-                themeMode={themeMode}
-              />
-              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Button type="submit" variant="contained" size="small">
-                  {t('Submit')}
-                </Button>
-                <Button onClick={toggleModal} variant="contained" size="small">
-                  {t('Close')}
-                </Button>
-              </Box>
-            </Box>
-          )}
-        </Modal>
-      )}
+      <ButtonComponent
+        themeMode={themeMode}
+        isModalOpen={isModalOpen}
+        toggleModal={toggleModal}
+        handleSubmit={handleSubmit}
+        handleFormSubmit={handleFormSubmit}
+        control={control}
+        formInput={formInput}
+        inputs={inputs}
+        errors={errors}
+        selectedId={selectedId}
+        isLoadingCountry={isLoadingCountry}
+        reset={reset}
+      />
     </Box>
   );
 };
