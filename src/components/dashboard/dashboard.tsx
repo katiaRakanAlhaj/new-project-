@@ -1,39 +1,19 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import i18next from "i18next";
 import { Button, useMediaQuery, useTheme } from "@mui/material";
 import { Icon } from "../style/style";
 import Avatar from "@mui/material/Avatar";
 import Modal from "./logout";
-import {
-  CountryIcon,
-  HomeIcon,
-  IconArticle,
-  IconCategory,
-  IconFaq,
-  IconService,
-  IconUser,
-  LogoutIcon,
-  MoneyIcon,
-} from "../../icons/icon";
 import { shawSuccess } from "../../lib/tosts";
 import { useTranslation } from "react-i18next";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FormControl, MenuItem, Select } from "@mui/material";
 import { buttonIcon } from "../style/style";
 import { CiDark, CiLight } from "react-icons/ci";
@@ -44,13 +24,17 @@ interface AppBarProps extends MuiAppBarProps {
 const Dashboard = ({
   themeMode,
   onMoonClick,
+  handleDrawerOpen,
+  open,
 }: {
   themeMode: string;
   onMoonClick: Function;
+  handleDrawerOpen: () => void;
+  open: boolean;
 }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const handleLogout = () => {
     localStorage.removeItem("user");
     shawSuccess(t("logout successfully"));
@@ -85,25 +69,14 @@ const Dashboard = ({
     }),
     ...(open && {
       width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: `${drawerWidth}px`,
+      marginLeft: i18n.language === "ar" ? 0 : `${drawerWidth}px`,
+      marginRight: i18n.language === "ar" ? `${drawerWidth}px` : 0,
       transition: theme.transitions.create(["margin", "width"], {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
       }),
     }),
   }));
-  const sideBarLinks = [
-    { id: 0, to: "/home", icon: <HomeIcon />, text: t("Home") },
-    { id: 1, to: "/country", icon: <CountryIcon />, text: t("Country") },
-    { id: 2, to: "/city", icon: <CountryIcon />, text: t("City") },
-    { id: 3, to: "/boins", icon: <MoneyIcon />, text: t("Boins") },
-    { id: 4, to: "/article", icon: <IconArticle />, text: t("Article") },
-    { id: 5, to: "/category", icon: <IconCategory />, text: t("category") },
-    { id: 6, to: "/faq", icon: <IconFaq />, text: t("FAQ") },
-    { id: 7, to: "/service", icon: <IconService />, text: t("Service") },
-    { id: 8, to: "/user", icon: <IconUser />, text: t("User") },
-    { id: 9, to: "/logout", icon: <LogoutIcon />, text: t("Logout") },
-  ];
 
   const isMobile = useMediaQuery("(max-width:600px)");
   const handleAvatarClick = () => {
@@ -116,7 +89,7 @@ const Dashboard = ({
     <>
       <AppBar
         position="fixed"
-        open={true}
+        open={open}
         sx={{
           backgroundColor:
             themeMode === "dark"
@@ -127,11 +100,11 @@ const Dashboard = ({
         <Toolbar>
           <IconButton
             aria-label="open drawer"
-            // onClick={handleDrawerOpen}
+            onClick={handleDrawerOpen}
             edge="start"
             sx={{
-              mr: 2,
-              ...(true && { display: "none" }),
+              mx: 2,
+              ...(open && { display: "none" }),
               color:
                 themeMode === "dark"
                   ? theme.palette.primary.light
@@ -166,7 +139,7 @@ const Dashboard = ({
                   }}
                   variant="h6"
                   color="black"
-                  sx={{ marginLeft: "1rem" }}
+                  sx={{ marginInlineStart: "1rem" }}
                 >
                   {t("DashBoard")}
                 </Typography>
@@ -239,133 +212,46 @@ const Dashboard = ({
           </Box>
         </Toolbar>
       </AppBar>
+
+      <Modal onClose={handleModalClose} openModal={isModalOpen}>
+        <Box
+          sx={{
+            width: "500px",
+            height: "200px",
+            backgroundColor: "#fff",
+            borderRadius: "5px",
+            padding: "20px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+            {t("Are you sure you want to logout?")}
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+              marginTop: "2rem",
+            }}
+          >
+            <Button
+              variant="contained"
+              sx={{ marginRight: "10px" }}
+              onClick={handleModalClose}
+            >
+              {t("No")}
+            </Button>
+            <Button variant="contained" onClick={handleLogout}>
+              {t("Yes")}
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
     </>
   );
 };
 export default Dashboard;
-
-// <Modal onClose={handleModalClose} openModal={isModalOpen}>
-//   <Box
-//     sx={{
-//       width: "500px",
-//       height: "200px",
-//       backgroundColor: "#fff",
-//       borderRadius: "5px",
-//       padding: "20px",
-//       display: "flex",
-//       flexDirection: "column",
-//       justifyContent: "center",
-//       alignItems: "center",
-//     }}
-//   >
-//     <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-//       {t("Are you sure you want to logout?")}
-//     </Typography>
-//     <Box
-//       sx={{
-//         display: "flex",
-//         justifyContent: "space-between",
-//         width: "100%",
-//         marginTop: "2rem",
-//       }}
-//     >
-//       <Button
-//         variant="contained"
-//         sx={{ marginRight: "10px" }}
-//         onClick={handleModalClose}
-//       >
-//         {t("No")}
-//       </Button>
-//       <Button variant="contained" onClick={handleLogout}>
-//         {t("Yes")}
-//       </Button>
-//     </Box>
-//   </Box>
-// </Modal>;
-
-//  <Drawer
-//    sx={{
-//      width: open ? drawerWidth : 0,
-//      flexShrink: 0,
-//      "& .MuiDrawer-paper": {
-//        width: drawerWidth,
-//        boxSizing: "border-box",
-//        backgroundColor:
-//          themeMode === "dark"
-//            ? theme.palette.primary.dark
-//            : theme.palette.primary.light,
-//      },
-//    }}
-//    variant="persistent"
-//    anchor="left"
-//    open={open}
-//  >
-//    <DrawerHeader>
-//      <IconButton onClick={handleDrawerClose}>
-//        {theme.direction === "ltr" ? (
-//          <ChevronLeftIcon
-//            sx={{
-//              color:
-//                themeMode == "dark"
-//                  ? theme.palette.primary.light
-//                  : theme.palette.primary.dark,
-//            }}
-//          />
-//        ) : (
-//          <ChevronRightIcon />
-//        )}
-//      </IconButton>
-//    </DrawerHeader>
-//    <Divider />
-//    <List>
-//      {sideBarLinks.map((sideBarlink) => (
-//        <ListItem
-//          key={sideBarlink.id}
-//          button
-//          component={Link}
-//          to={sideBarlink.to === "/logout" ? "/login" : sideBarlink.to}
-//          onClick={sideBarlink.to === "/logout" ? handleLogout : undefined}
-//          sx={{
-//            "&:hover": {
-//              backgroundColor: "gray",
-//              opacity: "0.7",
-//              transition: "all 500ms ease-in-out",
-//              borderRadius: "5px",
-//              "& .MuiListItemIcon-root": {
-//                color: "white",
-//              },
-//              "& .MuiTypography-root": {
-//                color: "white",
-//              },
-//            },
-//          }}
-//        >
-//          <ListItemIcon
-//            sx={{ color: "#475569" }}
-//            style={{
-//              color:
-//                themeMode === "dark"
-//                  ? theme.palette.primary.light
-//                  : theme.palette.primary.dark,
-//            }}
-//          >
-//            {sideBarlink.icon}
-//          </ListItemIcon>
-//          <ListItemText>
-//            <Typography
-//              sx={{
-//                fontWeight: "bold",
-//                color:
-//                  themeMode === "dark"
-//                    ? theme.palette.primary.light
-//                    : theme.palette.primary.dark,
-//                fontSize: "14px",
-//              }}
-//            >
-//              {sideBarlink.text}
-//            </Typography>
-//          </ListItemText>
-//        </ListItem>
-//      ))}
-//    </List>
-//  </Drawer>;
