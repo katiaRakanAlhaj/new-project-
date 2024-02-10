@@ -35,9 +35,8 @@ const CustomTable = ({
         sx={{
           [`& .${tableCellClasses.root}`]: {
             border: 'none',
+            textAlign: 'justify',
           },
-          // overflow: 'scroll',
-          // width: '100vw',
         }}
         aria-label="simple table"
         style={{

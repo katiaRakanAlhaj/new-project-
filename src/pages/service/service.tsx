@@ -131,7 +131,7 @@ const Service = ({ themeMode }: { themeMode: string }) => {
         themeMode={themeMode}
         searchValue={searchValue}
         handleSearchChange={handleSearchChange}
-        label={t('Search For Service')}
+        label={t('Search For service')}
         title={t('My Service')}
         toggleModal={toggleModal}
         titleButton={t('Add New Service')}

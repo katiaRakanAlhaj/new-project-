@@ -19,6 +19,7 @@
   "DashBoard": "DashBoard",
   "Email": "Email",
   "Phone": "Phone",
+  "location": "location",
   "Password": "Password",
   "Confirm Password": "Confirm Password",
   "sign up": "sign up",
@@ -101,5 +102,12 @@
   "User": "User",
   "Update Profile": "Update Profile",
   "Total Balance": "Total Balance",
-  "Board Card": "Board Card"
+  "Board Card": "Board Card",
+  "Calender Events": "Calender Events",
+  "My Service": "My Service",
+  "My User": "My User",
+  "Search For User": "Search For User",
+  "Check Email": "Check Email",
+  "reset email": "reset email",
+  "Info": "Info"
 }

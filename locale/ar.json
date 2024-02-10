@@ -19,6 +19,7 @@
   "DashBoard": "لوحة التحكم",
   "Email": "الايميل",
   "Phone": "رقم الهاتف",
+  "location": "الموقع",
   "Password": "كلمة المرور",
   "Confirm Password": "تاكيد كلمة المرور",
   "sign up": "تسجيل الدخول",
@@ -101,5 +102,12 @@
   "User": "المستخدم",
   "Update Profile": "تعديل بيانات الملف الشخصي للمستخدم",
   "Total Balance": "الرصيد الاجمالي",
-  "Board Card": "بطاقة المجلس"
+  "Board Card": "بطاقة المجلس",
+  "Calender Events": "احداث التقويم",
+  "My Service": "خدماتي",
+  "My User": "المستخدم",
+  "Search For User": "بحث عن مستخدم",
+  "Check Email": "التحقق من الايميل",
+  "reset email": "اعادة تعيين البريد الالكتروني",
+  "Info": "المعلومات الشخصية"
 }

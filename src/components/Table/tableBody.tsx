@@ -63,13 +63,25 @@ const TableBodyComponent: React.FC<ITableBodyComponentProps> = ({
                     >
                       <Icon
                         onClick={() => handleUpdate(row.id)}
-                        sx={{ marginRight: '1rem', cursor: 'pointer' }}
+                        sx={{
+                          cursor: 'pointer',
+                          color:
+                            themeMode === 'dark'
+                              ? theme.palette.primary.light
+                              : theme.palette.primary.dark,
+                        }}
                       >
                         <IconEdit />
                       </Icon>
                       <Icon
                         onClick={() => handleDelete(row.id)}
-                        sx={{ cursor: 'pointer' }}
+                        sx={{
+                          cursor: 'pointer',
+                          color:
+                            themeMode === 'dark'
+                              ? theme.palette.primary.light
+                              : theme.palette.primary.dark,
+                        }}
                       >
                         <IconDelete />
                       </Icon>
