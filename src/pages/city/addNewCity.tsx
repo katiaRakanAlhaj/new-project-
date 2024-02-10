@@ -1,9 +1,9 @@
-import { Box, Button, Typography } from '@mui/material';
-import MyForm from '../form/formInput';
-import { useTranslation } from 'react-i18next';
-import Modal from '../models/model';
-import { popup } from '../../components/style/style';
-import { useTheme } from '@mui/material';
+import { Box, Button, Typography, useMediaQuery } from "@mui/material";
+import MyForm from "../form/formInput";
+import { useTranslation } from "react-i18next";
+import Modal from "../models/model";
+import { popup } from "../../components/style/style";
+import { useTheme } from "@mui/material";
 
 interface ButtonComponentProps {
   themeMode: string;
@@ -34,6 +34,8 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({
 }) => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const isMobile = useMediaQuery("(max-width:600px)");
+  console.log("sdsad", isMobile);
   return (
     <>
       {isModalOpen && (
@@ -44,26 +46,26 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({
             <Box
               component="form"
               onSubmit={handleSubmit(handleFormSubmit)}
-              sx={popup}
+              sx={popup(isMobile)}
               style={{
                 backgroundColor:
-                  themeMode === 'dark'
+                  themeMode === "dark"
                     ? theme.palette.primary.dark
                     : theme.palette.primary.light,
-                border: themeMode === 'dark' ? 'solid 1px white' : 'none',
+                border: themeMode === "dark" ? "solid 1px white" : "none",
               }}
             >
               <Typography
                 style={{
                   color:
-                    themeMode === 'dark'
+                    themeMode === "dark"
                       ? theme.palette.primary.light
                       : theme.palette.primary.dark,
                 }}
                 variant="h6"
-                sx={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}
+                sx={{ textAlign: "center", color: "black", fontWeight: "bold" }}
               >
-                {selectedId > 0 ? t('Update City') : t('Add New City')}
+                {selectedId > 0 ? t("Update City") : t("Add New City")}
               </Typography>
               <MyForm
                 control={control}
@@ -71,12 +73,12 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({
                 inputs={inputs}
                 themeMode={themeMode}
               />
-              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <Button type="submit" variant="contained" size="small">
-                  {t('Submit')}
+                  {t("Submit")}
                 </Button>
                 <Button onClick={toggleModal} variant="contained" size="small">
-                  {t('Close')}
+                  {t("Close")}
                 </Button>
               </Box>
             </Box>

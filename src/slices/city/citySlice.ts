@@ -1,19 +1,21 @@
-import { IAddCity, ICity, IUpdateCity } from '../../api/cities/interfaces';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { cityApi } from '../../api/cities/api';
+import { IAddCity, ICity, IUpdateCity } from "../../api/cities/interfaces";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { cityApi } from "../../api/cities/api";
 
 export interface CityState {
   value: number;
   cities: ICity[];
+  theme: string;
 }
 
 const initialState: CityState = {
   value: 0,
   cities: [],
+  theme: "light",
 };
 
 export const fetchCity = createAsyncThunk(
-  'city/fetchCity', //unique
+  "city/fetchCity", //unique
   async () => {
     const res = cityApi.getCities();
     const data = await res;
@@ -21,7 +23,7 @@ export const fetchCity = createAsyncThunk(
   }
 );
 export const addCity = createAsyncThunk(
-  'city/addCity',
+  "city/addCity",
   async (city: IAddCity) => {
     const response = await cityApi.postCity(city);
     return response;
@@ -29,23 +31,29 @@ export const addCity = createAsyncThunk(
 );
 
 export const updateCity = createAsyncThunk(
-  'city/updateCity',
+  "city/updateCity",
   async (updateCity: IUpdateCity) => {
     const response = await cityApi.updateCity(updateCity);
     return response;
   }
 );
 export const deleteCity = createAsyncThunk(
-  'city/deleteCity',
+  "city/deleteCity",
   async (cityId: number) => {
     await cityApi.deleteCity(cityId);
     return cityId;
   }
 );
+// changeTheme('#000');
+// changeTheme('#fff');
 export const cityState = createSlice({
-  name: 'city',
+  name: "city",
   initialState,
-  reducers: {},
+  reducers: {
+    // changeTheme: (state, action: PayloadAction<string>) => {
+    //   state.theme = action.payload;
+    // },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchCity.fulfilled, (state, action) => {
       state.cities = action.payload;

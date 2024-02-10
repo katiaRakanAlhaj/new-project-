@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 import {
   Drawer,
   List,
@@ -11,10 +11,10 @@ import {
   styled,
   useTheme,
   IconButton,
-} from '@mui/material';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { useTranslation } from 'react-i18next';
+} from "@mui/material";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { useTranslation } from "react-i18next";
 
 interface DesktopDrawerProps {
   open: boolean;
@@ -40,12 +40,12 @@ const DesktopDrawer: React.FC<DesktopDrawerProps> = ({
 }) => {
   const theme = useTheme();
 
-  const DrawerHeader = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
+  const DrawerHeader = styled("div")(({ theme }) => ({
+    display: "flex",
+    alignItems: "center",
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
   }));
   const { i18n } = useTranslation();
   return (
@@ -53,18 +53,18 @@ const DesktopDrawer: React.FC<DesktopDrawerProps> = ({
       sx={{
         width: open ? drawerWidth : 0,
         flexShrink: 0,
-        '& .MuiDrawer-paper': {
+        "& .MuiDrawer-paper": {
           width: open ? drawerWidth : 0,
-          boxSizing: 'border-box',
+          boxSizing: "border-box",
         },
       }}
       variant="permanent"
-      anchor={i18n.language === 'ar' ? 'right' : 'left'}
+      anchor={i18n.language === "ar" ? "right" : "left"}
       open={open}
       PaperProps={{
         sx: {
           backgroundColor:
-            themeMode === 'dark'
+            themeMode === "dark"
               ? theme.palette.primary.dark
               : theme.palette.primary.light,
         },
@@ -72,11 +72,11 @@ const DesktopDrawer: React.FC<DesktopDrawerProps> = ({
     >
       <DrawerHeader>
         <IconButton onClick={handleDrawerClose}>
-          {theme.direction === 'ltr' ? (
+          {theme.direction === "ltr" ? (
             <ChevronRightIcon
               sx={{
                 color:
-                  themeMode == 'dark'
+                  themeMode == "dark"
                     ? theme.palette.primary.light
                     : theme.palette.primary.dark,
               }}
@@ -85,19 +85,19 @@ const DesktopDrawer: React.FC<DesktopDrawerProps> = ({
             <ChevronLeftIcon
               sx={{
                 color:
-                  themeMode == 'dark'
-                    ? theme.palette.primary.light
+                  themeMode == "dark"
+                    ? theme.palette.primary.light //"#fff"
                     : theme.palette.primary.dark,
               }}
             />
           )}
         </IconButton>
       </DrawerHeader>
-      <Divider sx={{ width: '100%' }} />
+      <Divider sx={{ width: "100%" }} />
       <List
         sx={{
           backgroundColor:
-            themeMode == 'dark'
+            themeMode == "dark"
               ? theme.palette.primary.dark
               : theme.palette.primary.light,
         }}
@@ -107,28 +107,28 @@ const DesktopDrawer: React.FC<DesktopDrawerProps> = ({
             key={sideBarlink.id}
             button
             component={Link}
-            to={sideBarlink.to === '/logout' ? '/login' : sideBarlink.to}
-            onClick={sideBarlink.to === '/logout' ? handleLogout : undefined}
+            to={sideBarlink.to === "/logout" ? "/login" : sideBarlink.to}
+            onClick={sideBarlink.to === "/logout" ? handleLogout : undefined}
             sx={{
-              '&:hover': {
-                backgroundColor: 'gray',
-                opacity: '0.7',
-                transition: 'all 500ms ease-in-out',
-                borderRadius: '5px',
-                '& .MuiListItemIcon-root': {
-                  color: 'white',
+              "&:hover": {
+                backgroundColor: "gray",
+                opacity: "0.7",
+                transition: "all 500ms ease-in-out",
+                borderRadius: "5px",
+                "& .MuiListItemIcon-root": {
+                  color: "white",
                 },
-                '& .MuiTypography-root': {
-                  color: 'white',
+                "& .MuiTypography-root": {
+                  color: "white",
                 },
               },
             }}
           >
             <ListItemIcon
-              sx={{ color: '#475569' }}
+              sx={{ color: "#475569" }}
               style={{
                 color:
-                  themeMode === 'dark'
+                  themeMode === "dark"
                     ? theme.palette.primary.light
                     : theme.palette.primary.dark,
               }}
@@ -138,12 +138,12 @@ const DesktopDrawer: React.FC<DesktopDrawerProps> = ({
             <ListItemText>
               <Typography
                 sx={{
-                  fontWeight: 'bold',
+                  fontWeight: "bold",
                   color:
-                    themeMode === 'dark'
+                    themeMode === "dark"
                       ? theme.palette.primary.light
                       : theme.palette.primary.dark,
-                  fontSize: '14px',
+                  fontSize: "14px",
                 }}
               >
                 {sideBarlink.text}

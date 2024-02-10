@@ -75,16 +75,16 @@ export const formInput = {
     fontSize: 12,
   },
 };
-export const popup = {
+export const popup = (isMobile?: boolean) => ({
   display: "flex",
   flexDirection: "column",
   gap: "1rem",
   padding: "1rem",
-  width: "30%",
+  width: isMobile ? "90vw" : "40vw",
   backgroundColor: "white",
   boxShadow: "0 0.35px 35px rgba(0, 0, 0, 0.25)",
   borderRadius: "10px",
-};
+});
 export const logout = {
   display: "flex",
   flexDirection: "column",

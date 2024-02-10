@@ -1,5 +1,5 @@
-import { Modal as MuiModal } from '@mui/material';
-import { PropsWithChildren } from 'react';
+import { Modal as MuiModal } from "@mui/material";
+import { PropsWithChildren } from "react";
 interface ModalProps {
   onClose: () => void;
   openModal: boolean;
@@ -17,9 +17,9 @@ const Modal = ({
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
       sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       {children}
