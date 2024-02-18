@@ -1,7 +1,7 @@
-import React from 'react';
-import { Grid, TextField, Autocomplete } from '@mui/material';
-import { Controller } from 'react-hook-form';
-import { ICategory } from '../../api/categories/interfaces';
+import React from "react";
+import { Grid, TextField, Autocomplete } from "@mui/material";
+import { Controller } from "react-hook-form";
+import { ICategory } from "../../api/categories/interfaces";
 
 interface FormField {
   name: string;
@@ -31,7 +31,7 @@ const MyForm: React.FC<MyFormProps> = ({
             name={input.name}
             control={control}
             render={({ field }) => {
-              if (input.name === 'category') {
+              if (input.name === "category") {
                 return (
                   <Autocomplete
                     options={categories ?? []}

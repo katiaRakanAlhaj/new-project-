@@ -1,3 +1,4 @@
+import i18next from "i18next";
 import * as Yup from "yup";
 export const schema_login = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -28,6 +29,7 @@ export const schema_signup = Yup.object().shape({
 export const schema_email = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
 });
+
 export const schema_password = Yup.object().shape({
   password: Yup.string()
     .required("Password is required")
@@ -64,11 +66,26 @@ export const schema_article = Yup.object().shape({
 export const schema_category = Yup.object().shape({
   name: Yup.string().required("Name is required"),
 });
-export const schema_faq = Yup.object().shape({
-  title: Yup.string().required("Title is required"),
-  description: Yup.string().required("Description is required"),
-  category: Yup.array().required("Category is required"),
-});
+
+type Tschema_faq = {
+  title: string;
+  description: string;
+  cat: string;
+};
+
+export const schema_faq = ({ title, description, cat }: Tschema_faq) =>
+  Yup.object().shape({
+    title: Yup.string().required(title),
+    description: Yup.string().required(description),
+    category: Yup.array()
+      .of(
+        Yup.object().shape({
+          id: Yup.number(),
+          name: Yup.string(),
+        })
+      )
+      .min(1, cat),
+  });
 export const schema_service = Yup.object().shape({
   title: Yup.string().required("Title is required"),
   description: Yup.string().required("Description is required"),
