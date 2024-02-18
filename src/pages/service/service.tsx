@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import useServices, { serviceQueries } from '../../api/services/query';
 import { serviceApi } from '../../api/services/api';
 import { shawError, shawSuccess } from '../../lib/tosts';
-import { Box } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { IService } from '../../api/services/interfaces';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -117,6 +117,7 @@ const Service = ({ themeMode }: { themeMode: string }) => {
     },
   ];
   const theme = useTheme();
+
   return (
     <Box
       sx={container}

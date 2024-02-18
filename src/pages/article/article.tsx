@@ -3,31 +3,17 @@ import { useTranslation } from 'react-i18next';
 import useArticles, { articleQueries } from '../../api/articles/query';
 import { ArticleApi } from '../../api/articles/api';
 import { shawError, shawSuccess } from '../../lib/tosts';
-import {
-  Autocomplete,
-  Box,
-  Button,
-  Grid,
-  TextField,
-  Typography,
-  useMediaQuery,
-} from '@mui/material';
-import Modal from '../models/model';
-import {
-  AddButton,
-  container,
-  formInput,
-  popup,
-} from '../../components/style/style';
-import { Table } from '../../components';
-import { Controller, useForm } from 'react-hook-form';
+import { Box, useMediaQuery } from '@mui/material';
+import { container, formInput } from '../../components/style/style';
+import { useForm } from 'react-hook-form';
 import { categoryQueries } from '../../api/categories/query';
 import { IArticle } from '../../api/articles/interfaces';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema_article } from '../../components/schema/shcema';
-import { ICategory } from '../../api/categories/interfaces';
 import { useTheme } from '@mui/material';
-import Search from '../boins/search';
+import Header from '../../components/Header/Header';
+import Body from '../../components/body/body';
+import ButtonComponent from './addNewArticle';
 
 const Article = ({ themeMode }: { themeMode: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -162,7 +148,6 @@ const Article = ({ themeMode }: { themeMode: string }) => {
       };
     });
 
-  const isMobile = useMediaQuery('(max-width:600px)');
   const theme = useTheme();
   return (
     <Box
@@ -174,137 +159,38 @@ const Article = ({ themeMode }: { themeMode: string }) => {
             : theme.palette.background.default,
       }}
     >
-      <Grid container spacing={4} alignItems="center" mb={2} sx={{}}>
-        <Grid item md={6} xs={12}>
-          <Typography
-            style={{
-              color:
-                themeMode === 'dark'
-                  ? theme.palette.primary.light
-                  : theme.palette.primary.dark,
-            }}
-            variant="h6"
-            sx={{ fontWeight: 'bold' }}
-          >
-            {t('My Article')}
-          </Typography>
-        </Grid>
-        <Grid item md={6} xs={12}>
-          <Box display={isMobile ? 'grid' : 'flex'} gap={1} alignItems="center">
-            <Search
-              label={t('Search For Article')}
-              size={'small'}
-              value={searchValue}
-              onChange={handleSearchChange}
-              themeMode={themeMode}
-            />
-            <Button
-              variant="contained"
-              sx={[
-                AddButton,
-                { width: isMobile ? '100%' : 400, height: '100%' },
-              ]}
-              onClick={toggleModal}
-            >
-              {t('Add New Article')}
-            </Button>
-          </Box>
-        </Grid>
-      </Grid>
-      <Table
+      <Header
+        themeMode={themeMode}
+        searchValue={searchValue}
+        handleSearchChange={handleSearchChange}
+        label={t('Search For Article')}
+        title={t('My Article')}
+        toggleModal={toggleModal}
+        titleButton={t('Add New Article')}
+      />
+
+      <Body
         columns={columns}
         data={newData}
         handleDelete={handleDelete}
         handleUpdate={handleUpdate}
         themeMode={themeMode}
       />
-      {isModalOpen && (
-        <Modal onClose={toggleModal} openModal={isModalOpen}>
-          {isLoadingArticle ? (
-            <div>loading....</div>
-          ) : (
-            <Box
-              component="form"
-              onSubmit={handleSubmit(handleFormSubmit)}
-              sx={popup}
-              style={{
-                backgroundColor:
-                  themeMode === 'dark'
-                    ? theme.palette.primary.dark
-                    : theme.palette.primary.light,
-                border: themeMode === 'dark' ? 'solid 1px white' : 'none',
-              }}
-            >
-              <Typography
-                style={{
-                  color:
-                    themeMode === 'dark'
-                      ? theme.palette.primary.light
-                      : theme.palette.primary.dark,
-                }}
-                variant="h6"
-                sx={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}
-              >
-                {selectedId > 0 ? t('Update Article') : t('Add New Article')}
-              </Typography>
-              <Grid container spacing={2}>
-                {inputs.map((input) => (
-                  <Grid item xs={12} key={input.name}>
-                    <Controller
-                      name={input.name as keyof IArticle}
-                      control={control}
-                      render={({ field }) => {
-                        if (input.name === 'category') {
-                          return (
-                            <Autocomplete
-                              options={categories ?? []}
-                              getOptionLabel={(option) => option.name}
-                              multiple
-                              value={field.value as ICategory[]}
-                              renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                  variant="outlined"
-                                  sx={formInput}
-                                  helperText={input.errorMassage}
-                                  fullWidth
-                                  error={!!input.error}
-                                  label={input.label}
-                                />
-                              )}
-                              onChange={(e, value) => field.onChange(value)}
-                            />
-                          );
-                        }
-                        return (
-                          <TextField
-                            variant="outlined"
-                            sx={formInput}
-                            fullWidth
-                            error={!!input.error}
-                            label={input.label}
-                            value={field.value}
-                            helperText={input.errorMassage}
-                            onChange={field.onChange}
-                          />
-                        );
-                      }}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Button type="submit" variant="contained" size="small">
-                  {t('Submit')}
-                </Button>
-                <Button onClick={toggleModal} variant="contained" size="small">
-                  {t('Close')}
-                </Button>
-              </Box>
-            </Box>
-          )}
-        </Modal>
-      )}
+      <ButtonComponent
+        themeMode={themeMode}
+        isModalOpen={isModalOpen}
+        toggleModal={toggleModal}
+        handleSubmit={handleSubmit}
+        handleFormSubmit={handleFormSubmit}
+        control={control}
+        formInput={formInput}
+        inputs={inputs}
+        errors={errors}
+        selectedId={selectedId}
+        isLoadingArticle={isLoadingArticle}
+        reset={reset}
+        categories={categories}
+      />
     </Box>
   );
 };

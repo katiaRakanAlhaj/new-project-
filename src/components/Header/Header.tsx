@@ -1,6 +1,6 @@
 import { Box, Button, Grid, Typography, useMediaQuery } from '@mui/material';
 import Search from '../../pages/boins/search';
-import { AddButton, container, flexContainer } from '../style/style';
+import { AddButton } from '../style/style';
 import { useTheme } from '@mui/material';
 
 interface HeaderProps {

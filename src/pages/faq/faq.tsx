@@ -1,27 +1,19 @@
-import Modal from '../models/model';
-import {
-  Autocomplete,
-  Box,
-  Button,
-  Grid,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { container, popup, formInput } from '../../components/style/style';
+import { container, formInput } from '../../components/style/style';
 import { useEffect, useState } from 'react';
 import useFAQS, { faqQueries } from '../../api/FAQ/query';
 import { FaqApi } from '../../api/FAQ/api';
 import { shawError, shawSuccess } from '../../lib/tosts';
 import { IFAQ } from '../../api/FAQ/interfaces';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema_faq } from '../../components/schema/shcema';
 import { categoryQueries } from '../../api/categories/query';
 import { useTheme } from '@mui/material';
-import { ICategory } from '../../api/categories/interfaces';
 import Header from '../../components/Header/Header';
 import Body from '../../components/body/body';
+import ButtonComponent from './addNewFaq';
 
 const FAQ = ({ themeMode }: { themeMode: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -144,6 +136,7 @@ const FAQ = ({ themeMode }: { themeMode: string }) => {
     },
   ];
   const theme = useTheme();
+
   return (
     <Box
       sx={container}
@@ -170,93 +163,21 @@ const FAQ = ({ themeMode }: { themeMode: string }) => {
         handleUpdate={handleUpdate}
         themeMode={themeMode}
       />
-      {isModalOpen && (
-        <Modal onClose={toggleModal} openModal={isModalOpen}>
-          {isLoadingFaq ? (
-            <div>loading...</div>
-          ) : (
-            <Box
-              component="form"
-              onSubmit={handleSubmit(handleFormSubmit)}
-              sx={popup}
-              style={{
-                backgroundColor:
-                  themeMode === 'dark'
-                    ? theme.palette.primary.dark
-                    : theme.palette.primary.light,
-                border: themeMode === 'dark' ? 'solid 1px white' : 'none',
-              }}
-            >
-              <Typography
-                style={{
-                  color:
-                    themeMode === 'dark'
-                      ? theme.palette.primary.light
-                      : theme.palette.primary.dark,
-                }}
-                variant="h6"
-                sx={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}
-              >
-                {selectedId > 0 ? t('Update Faq') : t('Add New Faq')}
-              </Typography>
-              <Grid spacing={2}>
-                {inputs.map((input) => (
-                  <Grid item xs={12} key={input.name}>
-                    <Controller
-                      name={input.name as keyof IFAQ}
-                      control={control}
-                      render={({ field }) => {
-                        if (input.name === 'category') {
-                          return (
-                            <Autocomplete
-                              options={categories ?? []}
-                              getOptionLabel={(option) => option.name}
-                              multiple
-                              value={field.value as ICategory[]}
-                              renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                  variant="outlined"
-                                  sx={formInput}
-                                  fullWidth
-                                  helperText={input.errorMassage}
-                                  error={!!input.error}
-                                  label={input.label}
-                                />
-                              )}
-                              onChange={(e, value) => field.onChange(value)}
-                            />
-                          );
-                        }
-                        return (
-                          <TextField
-                            variant="outlined"
-                            sx={formInput}
-                            helperText={input.errorMassage}
-                            fullWidth
-                            error={!!input.error}
-                            label={input.label}
-                            value={field.value}
-                            onChange={field.onChange}
-                          />
-                        );
-                      }}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Button type="submit" variant="contained" size="small">
-                  {t('Submit')}
-                </Button>
-                <Button onClick={toggleModal} variant="contained" size="small">
-                  {t('Close')}
-                </Button>
-              </Box>
-            </Box>
-          )}
-        </Modal>
-      )}
+      <ButtonComponent
+        themeMode={themeMode}
+        isModalOpen={isModalOpen}
+        toggleModal={toggleModal}
+        handleSubmit={handleSubmit}
+        handleFormSubmit={handleFormSubmit}
+        control={control}
+        formInput={formInput}
+        inputs={inputs}
+        errors={errors}
+        selectedId={selectedId}
+        isLoadingFaq={isLoadingFaq}
+        reset={reset}
+        categories={categories}
+      />
     </Box>
   );
 };

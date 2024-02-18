@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, useMediaQuery } from '@mui/material';
 import MyForm from '../form/formInput';
 import { useTranslation } from 'react-i18next';
 import Modal from '../models/model';
@@ -34,6 +34,8 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({
 }) => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const isMobile = useMediaQuery('(max-width:600px)');
+
   return (
     <>
       {isModalOpen && (
@@ -44,7 +46,7 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({
             <Box
               component="form"
               onSubmit={handleSubmit(handleFormSubmit)}
-              sx={popup}
+              sx={popup(isMobile)}
               style={{
                 backgroundColor:
                   themeMode === 'dark'

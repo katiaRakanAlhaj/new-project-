@@ -1,5 +1,5 @@
 import { Box, Button, Typography, useMediaQuery } from '@mui/material';
-import MyForm from '../form/formInput';
+import MyForm from '../form/formInputAutoComplete';
 import { useTranslation } from 'react-i18next';
 import Modal from '../models/model';
 import { popup } from '../../components/style/style';
@@ -8,7 +8,7 @@ import { useTheme } from '@mui/material';
 interface ButtonComponentProps {
   themeMode: string;
   isModalOpen: boolean;
-  isLoadingBoin: boolean;
+  isLoadingFaq: boolean;
   toggleModal: () => void;
   handleSubmit: any;
   handleFormSubmit: any;
@@ -18,6 +18,7 @@ interface ButtonComponentProps {
   errors: any;
   reset: any;
   selectedId: number;
+  categories: any;
 }
 
 const ButtonComponent: React.FC<ButtonComponentProps> = ({
@@ -25,22 +26,23 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({
   isModalOpen,
   toggleModal,
   handleSubmit,
-  isLoadingBoin,
+  isLoadingFaq,
   handleFormSubmit,
   control,
   formInput,
   inputs,
   selectedId,
+  categories,
 }) => {
-  const isMobile = useMediaQuery('(max-width:600px)');
-
   const { t } = useTranslation();
   const theme = useTheme();
+  const isMobile = useMediaQuery('(max-width:600px)');
+
   return (
     <>
       {isModalOpen && (
         <Modal onClose={toggleModal} openModal={isModalOpen}>
-          {isLoadingBoin ? (
+          {isLoadingFaq ? (
             <div>loading...</div>
           ) : (
             <Box
@@ -65,13 +67,13 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({
                 variant="h6"
                 sx={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}
               >
-                {selectedId > 0 ? t('Update Boin') : t('Add New Boin')}
+                {selectedId > 0 ? t('Update Faq') : t('Add New Faq')}
               </Typography>
               <MyForm
+                inputs={inputs}
                 control={control}
                 formInput={formInput}
-                inputs={inputs}
-                themeMode={themeMode}
+                categories={categories}
               />
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Button type="submit" variant="contained" size="small">

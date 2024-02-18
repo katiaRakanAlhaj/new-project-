@@ -55,7 +55,7 @@ const ResetEmailInputSide = ({}: IResetEmailInputSide) => {
   const isMobile = useMediaQuery('(max-width:630px)');
 
   return (
-    <Box sx={{ flex: 2 }}>
+    <Box sx={{ flex: 2, background: '#fff' }}>
       <Container
         sx={[
           form,

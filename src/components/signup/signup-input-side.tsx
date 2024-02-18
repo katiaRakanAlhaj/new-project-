@@ -1,16 +1,16 @@
-import { useForm } from "react-hook-form";
-import { TUser } from "../../api/auth/interfaces";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { schema_signup } from "../schema/shcema";
-import { userApi } from "../../api/auth/api";
-import TitleWithIcons from "../title-with-icons";
-import { useNavigate } from "react-router-dom";
-import { Box, Container, useMediaQuery } from "@mui/material";
-import { useTranslation } from "react-i18next";
-import { form } from "../style/style";
-import SubmitButtons from "./signupButton";
-import GridComponent from "./signupGrid";
-import { userProfileApi } from "../../api/profile/api";
+import { useForm } from 'react-hook-form';
+import { TUser } from '../../api/auth/interfaces';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { schema_signup } from '../schema/shcema';
+import { userApi } from '../../api/auth/api';
+import TitleWithIcons from '../title-with-icons';
+import { useNavigate } from 'react-router-dom';
+import { Box, Container, useMediaQuery } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { form } from '../style/style';
+import SubmitButtons from './signupButton';
+import GridComponent from './signupGrid';
+import { userProfileApi } from '../../api/profile/api';
 
 interface ISignupSide {}
 
@@ -22,12 +22,12 @@ const SignupInputSide = ({}: ISignupSide) => {
   } = useForm<TUser & { phone?: string; location?: string }>({
     resolver: yupResolver(schema_signup),
     defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      location: "",
-      phone: "",
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      location: '',
+      phone: '',
     },
   });
   const navigate = useNavigate();
@@ -39,64 +39,65 @@ const SignupInputSide = ({}: ISignupSide) => {
       await userProfileApi.postUser({
         data: {
           email: data.email,
-          location: "syria",
+          location: 'syria',
           name: data.name,
-          phone: "09000000000",
+          phone: '09000000000',
         },
       });
-      navigate("/login");
+      navigate('/login');
     } catch (err) {
-      console.log("error", err);
+      console.log('error', err);
     }
   };
   const { t } = useTranslation();
 
   const inputs = [
     {
-      name: "name",
-      label: t("Name"),
+      name: 'name',
+      label: t('Name'),
       error: errors.name,
       errorMassage: errors.name,
     },
     {
-      name: "email",
-      label: t("Email"),
+      name: 'email',
+      label: t('Email'),
       error: errors.email,
       errorMassage: errors.email,
     },
     {
-      name: "password",
-      label: t("Password"),
+      name: 'password',
+      label: t('Password'),
       error: errors.password,
       errorMassage: errors.password,
     },
     {
-      name: "confirmPassword",
-      label: t("Confirm Password"),
+      name: 'confirmPassword',
+      label: t('Confirm Password'),
       error: errors.confirmPassword,
       errorMassage: errors.confirmPassword,
     },
   ];
-  const isMobile = useMediaQuery("(max-width:900px)");
+  const isMobile = useMediaQuery('(max-width:900px)');
 
   return (
     <Box
       sx={{
         flex: 2,
+        background: '#fff',
       }}
     >
       <Container
         sx={[
           form,
           {
-            height: isMobile ? "100vh" : "100%",
+            height: isMobile ? '100vh' : '100%',
           },
         ]}
       >
-        <TitleWithIcons title={t("Sign up to Account")} />
+        <TitleWithIcons title={t('Sign up to Account')} />
         <Box
           component="form"
-          sx={{ width: isMobile ? "100%" : "50%" }}
+          sx={{ width: isMobile ? '100%' : '50%' }}
           onSubmit={handleSubmit(handleFormSubmit)}
         >
           <GridComponent inputs={inputs} control={control} />
