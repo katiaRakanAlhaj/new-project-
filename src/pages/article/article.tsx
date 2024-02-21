@@ -1,23 +1,23 @@
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import useArticles, { articleQueries } from '../../api/articles/query';
-import { ArticleApi } from '../../api/articles/api';
-import { shawError, shawSuccess } from '../../lib/tosts';
-import { Box, useMediaQuery } from '@mui/material';
-import { container, formInput } from '../../components/style/style';
-import { useForm } from 'react-hook-form';
-import { categoryQueries } from '../../api/categories/query';
-import { IArticle } from '../../api/articles/interfaces';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { schema_article } from '../../components/schema/shcema';
-import { useTheme } from '@mui/material';
-import Header from '../../components/Header/Header';
-import Body from '../../components/body/body';
-import ButtonComponent from './addNewArticle';
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import useArticles, { articleQueries } from "../../api/articles/query";
+import { ArticleApi } from "../../api/articles/api";
+import { shawError, shawSuccess } from "../../lib/tosts";
+import { Box, useMediaQuery } from "@mui/material";
+import { container, formInput } from "../../components/style/style";
+import { useForm } from "react-hook-form";
+import { categoryQueries } from "../../api/categories/query";
+import { IArticle } from "../../api/articles/interfaces";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schema_article } from "../../components/schema/shcema";
+import { useTheme } from "@mui/material";
+import Header from "../../components/Header/Header";
+import Body from "../../components/body/body";
+import ButtonComponent from "./addNewArticle";
 
 const Article = ({ themeMode }: { themeMode: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
   const { t } = useTranslation();
   const [selectedId, setSelectedId] = useState(0);
   const { data: response = [], refetch } = useArticles();
@@ -31,9 +31,9 @@ const Article = ({ themeMode }: { themeMode: string }) => {
         ArticleApi.deleteArticles(id);
       }
       refetch();
-      shawSuccess(t('article deleted successfully'));
+      shawSuccess(t("article deleted successfully"));
     } catch (err) {
-      shawError(t('failed in delete article'));
+      shawError(t("failed in delete article"));
     }
   };
 
@@ -57,8 +57,8 @@ const Article = ({ themeMode }: { themeMode: string }) => {
   } = useForm<IArticle>({
     resolver: yupResolver(schema_article),
     defaultValues: {
-      title: '',
-      description: '',
+      title: "",
+      description: "",
       category: [],
     },
   });
@@ -79,10 +79,10 @@ const Article = ({ themeMode }: { themeMode: string }) => {
         name: item.name,
       }));
 
-      setValue('title', article.title);
-      setValue('description', article.description);
-      setValue('category', selecedCata);
-      setValue('id', article.id);
+      setValue("title", article.title);
+      setValue("description", article.description);
+      setValue("category", selecedCata);
+      setValue("id", article.id);
     }
   }, [selectedId, article]);
 
@@ -90,49 +90,49 @@ const Article = ({ themeMode }: { themeMode: string }) => {
     try {
       if (selectedId > 0) {
         await ArticleApi.updateArticles({ data: data, id: selectedId });
-        shawSuccess(t('article updated successfully'));
+        shawSuccess(t("article updated successfully"));
       } else {
         await ArticleApi.postArticles({
           data: { ...data, id: generateRandomNumber(1, 100) },
         });
-        shawSuccess(t('article added sucessfully'));
+        shawSuccess(t("article added sucessfully"));
       }
       refetch();
       setSelectedId(0);
       toggleModal();
       reset();
     } catch (error) {
-      shawSuccess('error');
+      shawSuccess("error");
     }
   };
 
   const inputs = [
     {
-      name: 'title',
-      label: t('Title'),
+      name: "title",
+      label: t("Title"),
       error: errors.title,
       errorMassage: errors.title?.message,
     },
     {
-      name: 'description',
-      label: t('Description'),
+      name: "description",
+      label: t("Description"),
       error: errors.description,
       errorMassage: errors.description?.message,
     },
     {
-      name: 'category',
-      label: t('Category'),
+      name: "category",
+      label: t("Category"),
       error: errors.category,
       errorMassage: errors.category?.message,
     },
   ];
 
   const columns = [
-    { th: t('ID'), key: 'id' },
-    { th: t('Title'), key: 'title' },
-    { th: t('Description'), key: 'description' },
-    { th: t('Category'), key: 'category' },
-    { th: t('Actions'), key: 'actions' },
+    { th: t("ID"), key: "id" },
+    { th: t("Title"), key: "title" },
+    { th: t("Description"), key: "description" },
+    { th: t("Category"), key: "category" },
+    { th: t("Actions"), key: "actions" },
   ];
 
   const newData = response
@@ -154,7 +154,7 @@ const Article = ({ themeMode }: { themeMode: string }) => {
       sx={container}
       style={{
         backgroundColor:
-          themeMode === 'dark'
+          themeMode === "dark"
             ? theme.palette.primary.dark
             : theme.palette.background.default,
       }}
@@ -163,10 +163,10 @@ const Article = ({ themeMode }: { themeMode: string }) => {
         themeMode={themeMode}
         searchValue={searchValue}
         handleSearchChange={handleSearchChange}
-        label={t('Search For Article')}
-        title={t('My Article')}
+        label={t("Search For Article")}
+        title={t("My Article")}
         toggleModal={toggleModal}
-        titleButton={t('Add New Article')}
+        titleButton={t("Add New Article")}
       />
 
       <Body
@@ -176,21 +176,23 @@ const Article = ({ themeMode }: { themeMode: string }) => {
         handleUpdate={handleUpdate}
         themeMode={themeMode}
       />
-      <ButtonComponent
-        themeMode={themeMode}
-        isModalOpen={isModalOpen}
-        toggleModal={toggleModal}
-        handleSubmit={handleSubmit}
-        handleFormSubmit={handleFormSubmit}
-        control={control}
-        formInput={formInput}
-        inputs={inputs}
-        errors={errors}
-        selectedId={selectedId}
-        isLoadingArticle={isLoadingArticle}
-        reset={reset}
-        categories={categories}
-      />
+      {isModalOpen && (
+        <ButtonComponent
+          themeMode={themeMode}
+          isModalOpen={isModalOpen}
+          toggleModal={toggleModal}
+          handleSubmit={handleSubmit}
+          handleFormSubmit={handleFormSubmit}
+          control={control}
+          formInput={formInput}
+          inputs={inputs}
+          errors={errors}
+          selectedId={selectedId}
+          isLoadingArticle={isLoadingArticle}
+          reset={reset}
+          categories={categories}
+        />
+      )}
     </Box>
   );
 };

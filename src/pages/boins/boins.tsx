@@ -1,22 +1,22 @@
-import { useEffect, useState } from 'react';
-import useBoins, { boinQueries } from '../../api/boins/query';
-import { BoinApi } from '../../api/boins/api';
-import { shawError, shawSuccess } from '../../lib/tosts';
-import { Box } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import { container, formInput } from '../../components/style/style';
-import { IBoins } from '../../api/boins/interfaces';
-import { useForm } from 'react-hook-form';
-import { schema_boin } from '../../components/schema/shcema';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useTheme } from '@mui/material';
-import Header from '../../components/Header/Header';
-import Body from '../../components/body/body';
-import ButtonComponent from './AddNewBoin';
+import { useEffect, useState } from "react";
+import useBoins, { boinQueries } from "../../api/boins/query";
+import { BoinApi } from "../../api/boins/api";
+import { shawError, shawSuccess } from "../../lib/tosts";
+import { Box } from "@mui/material";
+import { useTranslation } from "react-i18next";
+import { container, formInput } from "../../components/style/style";
+import { IBoins } from "../../api/boins/interfaces";
+import { useForm } from "react-hook-form";
+import { schema_boin } from "../../components/schema/shcema";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useTheme } from "@mui/material";
+import Header from "../../components/Header/Header";
+import Body from "../../components/body/body";
+import ButtonComponent from "./AddNewBoin";
 
 const Boins = ({ themeMode }: { themeMode: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -37,8 +37,8 @@ const Boins = ({ themeMode }: { themeMode: string }) => {
   } = useForm<IBoins>({
     resolver: yupResolver(schema_boin),
     defaultValues: {
-      name: '',
-      details: '',
+      name: "",
+      details: "",
       price: 0,
     },
   });
@@ -48,10 +48,10 @@ const Boins = ({ themeMode }: { themeMode: string }) => {
   };
   useEffect(() => {
     if (selectedId > 0 && boin) {
-      setValue('name', boin.name);
-      setValue('details', boin.details);
-      setValue('price', boin.price);
-      setValue('id', boin.id);
+      setValue("name", boin.name);
+      setValue("details", boin.details);
+      setValue("price", boin.price);
+      setValue("id", boin.id);
     }
   }, [selectedId, boin]);
 
@@ -59,19 +59,19 @@ const Boins = ({ themeMode }: { themeMode: string }) => {
     try {
       if (selectedId > 0) {
         await BoinApi.updateBoins({ data: data, id: selectedId });
-        shawSuccess(t('boin updated successfully'));
+        shawSuccess(t("boin updated successfully"));
       } else {
         await BoinApi.postBoins({
           data: { ...data, id: generateRandomNumber(1, 100) },
         });
-        shawSuccess(t('boin added sucessfully'));
+        shawSuccess(t("boin added sucessfully"));
       }
       refetch();
       setSelectedId(0);
       toggleModal();
       reset();
     } catch (error) {
-      shawSuccess('error');
+      shawSuccess("error");
     }
   };
   const handleDelete = async (id?: number) => {
@@ -80,9 +80,9 @@ const Boins = ({ themeMode }: { themeMode: string }) => {
         BoinApi.deleteBoins(id);
       }
       refetch();
-      shawSuccess(t('boin deleted successfully'));
+      shawSuccess(t("boin deleted successfully"));
     } catch (err) {
-      shawError(t('failed in delete boin'));
+      shawError(t("failed in delete boin"));
     }
   };
 
@@ -101,28 +101,28 @@ const Boins = ({ themeMode }: { themeMode: string }) => {
     item.name.toLowerCase().includes(searchValue.toLowerCase())
   );
   const columns = [
-    { th: t('ID'), key: 'id' },
-    { th: t('Name'), key: 'name' },
-    { th: t('Details'), key: 'details' },
-    { th: t('Price'), key: 'price' },
-    { th: t('Actions'), key: 'actions' },
+    { th: t("ID"), key: "id" },
+    { th: t("Name"), key: "name" },
+    { th: t("Details"), key: "details" },
+    { th: t("Price"), key: "price" },
+    { th: t("Actions"), key: "actions" },
   ];
   const inputs = [
     {
-      name: 'name',
-      label: t('Name'),
+      name: "name",
+      label: t("Name"),
       error: errors.name,
       errorMassage: errors.name?.message,
     },
     {
-      name: 'details',
-      label: t('Details'),
+      name: "details",
+      label: t("Details"),
       error: errors.details,
       errorMassage: errors.details?.message,
     },
     {
-      name: 'price',
-      label: t('Price'),
+      name: "price",
+      label: t("Price"),
       error: errors.price,
       errorMassage: errors.price?.message,
     },
@@ -133,7 +133,7 @@ const Boins = ({ themeMode }: { themeMode: string }) => {
       sx={container}
       style={{
         backgroundColor:
-          themeMode === 'dark'
+          themeMode === "dark"
             ? theme.palette.primary.dark
             : theme.palette.background.default,
       }}
@@ -142,10 +142,10 @@ const Boins = ({ themeMode }: { themeMode: string }) => {
         themeMode={themeMode}
         searchValue={searchValue}
         handleSearchChange={handleSearchChange}
-        label={t('Search For Boin')}
-        title={t('My Boin')}
+        label={t("Search For Boin")}
+        title={t("My Boin")}
         toggleModal={toggleModal}
-        titleButton={t('Add New Boin')}
+        titleButton={t("Add New Boin")}
       />
       <Body
         columns={columns}

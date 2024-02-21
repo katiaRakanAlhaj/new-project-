@@ -35,13 +35,7 @@
       "id": 2
     }
   ],
-  "countries": [
-    {
-      "name": "damass",
-      "description": "ssss",
-      "id": 1
-    }
-  ],
+  "countries": [],
   "cities": [
     {
       "name": "syriaxs",
