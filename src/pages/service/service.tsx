@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import useServices, { serviceQueries } from '../../api/services/query';
 import { serviceApi } from '../../api/services/api';
 import { shawError, shawSuccess } from '../../lib/tosts';
-import { Box, useMediaQuery } from '@mui/material';
+import { Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { IService } from '../../api/services/interfaces';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -12,7 +12,7 @@ import { schema_service } from '../../components/schema/shcema';
 import { useTheme } from '@mui/material';
 import Header from '../../components/Header/Header';
 import Body from '../../components/body/body';
-import ButtonComponent from './AddNewService';
+import ButtonComponent from '../../components/addNewModal/AddNewModal';
 
 const Service = ({ themeMode }: { themeMode: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,7 +25,7 @@ const Service = ({ themeMode }: { themeMode: string }) => {
 
   const { data: response = [], refetch } = useServices();
 
-  const { data: service, isLoading: isLoadingService } =
+  const { data: service, isLoading: isLoading } =
     serviceQueries.useGetService(selectedId);
   const {
     handleSubmit,
@@ -34,7 +34,12 @@ const Service = ({ themeMode }: { themeMode: string }) => {
     reset,
     formState: { errors },
   } = useForm<IService>({
-    resolver: yupResolver(schema_service),
+    resolver: yupResolver(
+      schema_service({
+        title: t('title is required'),
+        description: t('description is required'),
+      })
+    ),
     defaultValues: { title: '', description: '' },
   });
   const generateRandomNumber = (min: number, max: number): number => {
@@ -155,8 +160,9 @@ const Service = ({ themeMode }: { themeMode: string }) => {
         inputs={inputs}
         errors={errors}
         selectedId={selectedId}
-        isLoadingService={isLoadingService}
+        isLoading={isLoading}
         reset={reset}
+        type="Service"
       />
     </Box>
   );

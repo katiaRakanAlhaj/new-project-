@@ -66,19 +66,21 @@ const Navbar = ({ onMoonClick }: { onMoonClick: Function }) => {
     >
       <Toolbar>
         <img src="../images/favicon.cbd04736.svg" alt="" />
-        <Typography
-          style={{
-            color:
-              theme.palette.mode === 'dark'
-                ? theme.palette.primary.light
-                : theme.palette.primary.dark,
-          }}
-          variant="h6"
-          color="black"
-          sx={{ marginLeft: '1rem' }}
-        >
-          {t('DashBoard')}
-        </Typography>
+        <Link to="/home">
+          <Typography
+            style={{
+              color:
+                theme.palette.mode === 'dark'
+                  ? theme.palette.primary.light
+                  : theme.palette.primary.dark,
+            }}
+            variant="h6"
+            color="black"
+            sx={{ marginLeft: '1rem' }}
+          >
+            {t('DashBoard')}
+          </Typography>
+        </Link>
         <Box sx={{ flexGrow: 1 }} />
         <Box sx={{ minWidth: 120 }}>
           <FormControl fullWidth>
@@ -130,7 +132,7 @@ const Navbar = ({ onMoonClick }: { onMoonClick: Function }) => {
         </Link>
 
         <Avatar sx={avatarLogout} onClick={toggleModal}>
-          lg
+          logouyt
         </Avatar>
       </Toolbar>
     </AppBar>

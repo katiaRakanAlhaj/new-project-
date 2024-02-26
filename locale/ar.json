@@ -109,5 +109,12 @@
   "Search For User": "بحث عن مستخدم",
   "Check Email": "التحقق من الايميل",
   "reset email": "اعادة تعيين البريد الالكتروني",
-  "Info": "المعلومات الشخصية"
+  "Info": "المعلومات الشخصية",
+  "title is required": "العنوان مطلوب",
+  "category is required": "الصنف مطلوب",
+  "description is required": "الوصف مطلوب",
+  "name is required": "الاسم مطلوب",
+  "email is required": "الايميل مطلوب",
+  "phone is required": "رقم الهاتف مطلوب",
+  "location is rquired": "الموقع مطلوب"
 }

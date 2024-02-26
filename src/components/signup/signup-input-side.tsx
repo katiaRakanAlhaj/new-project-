@@ -90,7 +90,7 @@ const SignupInputSide = ({}: ISignupSide) => {
         sx={[
           form,
           {
-            height: isMobile ? '100vh' : '100%',
+            height: isMobile ? '100vh' : '100vh',
           },
         ]}
       >

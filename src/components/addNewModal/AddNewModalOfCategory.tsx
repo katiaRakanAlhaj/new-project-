@@ -1,14 +1,13 @@
-import { Box, Button, Typography, useMediaQuery } from "@mui/material";
-import MyForm from "../form/formInputAutoComplete";
-import { useTranslation } from "react-i18next";
-import Modal from "../models/model";
-import { popup } from "../../components/style/style";
-import { useTheme } from "@mui/material";
-
+import { Box, Button, Typography, useMediaQuery } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { popup } from '../../components/style/style';
+import { useTheme } from '@mui/material';
+import MyForm from '../../pages/form/formInputAutoComplete';
+import Modal from '../../pages/models/model';
 interface ButtonComponentProps {
   themeMode: string;
   isModalOpen: boolean;
-  isLoadingArticle: boolean;
+  isLoading: boolean;
   toggleModal: () => void;
   handleSubmit: any;
   handleFormSubmit: any;
@@ -19,6 +18,7 @@ interface ButtonComponentProps {
   reset: any;
   selectedId: number;
   categories: any;
+  type: 'Article' | 'Faq';
 }
 
 const ButtonComponent: React.FC<ButtonComponentProps> = ({
@@ -26,22 +26,23 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({
   isModalOpen,
   toggleModal,
   handleSubmit,
-  isLoadingArticle,
+  isLoading,
   handleFormSubmit,
   control,
   formInput,
   inputs,
   selectedId,
   categories,
+  type,
 }) => {
-  const isMobile = useMediaQuery("(max-width:600px)");
+  const isMobile = useMediaQuery('(max-width:600px)');
 
   const { t } = useTranslation();
   const theme = useTheme();
   return (
     <>
       <Modal onClose={toggleModal} openModal={isModalOpen}>
-        {isLoadingArticle ? (
+        {isLoading ? (
           <div>loading....</div>
         ) : (
           <Box
@@ -50,23 +51,23 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({
             sx={popup(isMobile)}
             style={{
               backgroundColor:
-                themeMode === "dark"
+                themeMode === 'dark'
                   ? theme.palette.primary.dark
                   : theme.palette.primary.light,
-              border: themeMode === "dark" ? "solid 1px white" : "none",
+              border: themeMode === 'dark' ? 'solid 1px white' : 'none',
             }}
           >
             <Typography
               style={{
                 color:
-                  themeMode === "dark"
+                  themeMode === 'dark'
                     ? theme.palette.primary.light
                     : theme.palette.primary.dark,
               }}
               variant="h6"
-              sx={{ textAlign: "center", color: "black", fontWeight: "bold" }}
+              sx={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}
             >
-              {selectedId > 0 ? t("Update Article") : t("Add New Article")}
+              {selectedId > 0 ? t(`Update ${type}`) : t(`Add New ${type}`)}
             </Typography>
             <MyForm
               categories={categories}
@@ -74,12 +75,12 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({
               control={control}
               formInput={formInput}
             />
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
               <Button type="submit" variant="contained" size="small">
-                {t("Submit")}
+                {t('Submit')}
               </Button>
               <Button onClick={toggleModal} variant="contained" size="small">
-                {t("Close")}
+                {t('Close')}
               </Button>
             </Box>
           </Box>

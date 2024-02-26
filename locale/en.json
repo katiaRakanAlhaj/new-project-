@@ -109,5 +109,12 @@
   "Search For User": "Search For User",
   "Check Email": "Check Email",
   "reset email": "reset email",
-  "Info": "Info"
+  "Info": "Info",
+  "title is required": "title is required",
+  "category is required": "category is required",
+  "description is required": "description is required",
+  "name is required": "name is required",
+  "email is required": "email is required",
+  "phone is required": "phone is required",
+  "location is rquired": "location is rquired"
 }

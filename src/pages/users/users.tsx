@@ -12,7 +12,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { schema_user } from '../../components/schema/shcema';
 import Header from '../../components/Header/Header';
 import Body from '../../components/body/body';
-import ButtonComponent from './AddNewUser';
+import ButtonComponent from '../../components/addNewModal/AddNewModal';
 
 const Users = ({ themeMode }: { themeMode: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,7 +25,7 @@ const Users = ({ themeMode }: { themeMode: string }) => {
 
   const { data: response = [], refetch } = useUsers();
 
-  const { data: user, isLoading: isLoadingUser } =
+  const { data: user, isLoading: isLoading } =
     userQueries.useGetUser(selectedId);
 
   const {
@@ -35,7 +35,14 @@ const Users = ({ themeMode }: { themeMode: string }) => {
     reset,
     formState: { errors },
   } = useForm<TProfileUser>({
-    resolver: yupResolver(schema_user),
+    resolver: yupResolver(
+      schema_user({
+        name: t('name is required'),
+        email: t('email is required'),
+        phone: t('phone is required'),
+        location: t('location is rquired'),
+      })
+    ),
     defaultValues: {
       name: '',
       email: '',
@@ -175,8 +182,9 @@ const Users = ({ themeMode }: { themeMode: string }) => {
         inputs={inputs}
         errors={errors}
         selectedId={selectedId}
-        isLoadingUser={isLoadingUser}
+        isLoading={isLoading}
         reset={reset}
+        type="User"
       />
     </Box>
   );

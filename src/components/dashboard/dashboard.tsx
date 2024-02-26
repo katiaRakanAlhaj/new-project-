@@ -129,20 +129,24 @@ const Dashboard = ({
                 }}
                 component="div"
               >
-                <img src="../images/favicon.cbd04736.svg" alt="" />
-                <Typography
-                  style={{
-                    color:
-                      themeMode === 'dark'
-                        ? theme.palette.primary.light
-                        : theme.palette.primary.dark,
-                  }}
-                  variant="h6"
-                  color="black"
-                  sx={{ marginInlineStart: '1rem' }}
-                >
-                  {t('DashBoard')}
-                </Typography>
+                <Link to="/home">
+                  <img src="../images/favicon.cbd04736.svg" alt="" />
+                </Link>
+                <Link to="/home" style={{ textDecoration: 'none' }}>
+                  <Typography
+                    style={{
+                      color:
+                        themeMode === 'dark'
+                          ? theme.palette.primary.light
+                          : theme.palette.primary.dark,
+                    }}
+                    variant="h6"
+                    color="black"
+                    sx={{ marginInlineStart: '1rem' }}
+                  >
+                    {t('DashBoard')}
+                  </Typography>
+                </Link>
               </Box>
             )}
             <Box
@@ -243,10 +247,10 @@ const Dashboard = ({
               sx={{ marginRight: '10px' }}
               onClick={handleModalClose}
             >
-              {t('No')}
+              {t('NO')}
             </Button>
             <Button variant="contained" onClick={handleLogout}>
-              {t('Yes')}
+              {t('YES')}
             </Button>
           </Box>
         </Box>

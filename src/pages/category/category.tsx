@@ -12,7 +12,7 @@ import { schema_category } from '../../components/schema/shcema';
 import { useTheme } from '@mui/material';
 import Header from '../../components/Header/Header';
 import Body from '../../components/body/body';
-import ButtonComponent from './AddNewCategory';
+import ButtonComponent from '../../components/addNewModal/AddNewModal';
 const Category = ({ themeMode }: { themeMode: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
@@ -24,7 +24,7 @@ const Category = ({ themeMode }: { themeMode: string }) => {
 
   const { data: response = [], refetch } = categoryQueries.useCategories();
 
-  const { data: category, isLoading: isLoadingCategory } =
+  const { data: category, isLoading: isLoading } =
     categoryQueries.useGetCategory(selectedId);
 
   const handleUpdate = (id?: number) => {
@@ -146,8 +146,9 @@ const Category = ({ themeMode }: { themeMode: string }) => {
         inputs={inputs}
         errors={errors}
         selectedId={selectedId}
-        isLoadingCategory={isLoadingCategory}
+        isLoading={isLoading}
         reset={reset}
+        type="Category"
       />
     </Box>
   );

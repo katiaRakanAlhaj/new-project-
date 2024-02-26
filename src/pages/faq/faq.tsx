@@ -1,23 +1,23 @@
-import { Box } from "@mui/material";
-import { useTranslation } from "react-i18next";
-import { container, formInput } from "../../components/style/style";
-import { useEffect, useState } from "react";
-import useFAQS, { faqQueries } from "../../api/FAQ/query";
-import { FaqApi } from "../../api/FAQ/api";
-import { shawError, shawSuccess } from "../../lib/tosts";
-import { IFAQ } from "../../api/FAQ/interfaces";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { schema_faq } from "../../components/schema/shcema";
-import { categoryQueries } from "../../api/categories/query";
-import { useTheme } from "@mui/material";
-import Header from "../../components/Header/Header";
-import Body from "../../components/body/body";
-import ButtonComponent from "./addNewFaq";
+import { Box } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { container, formInput } from '../../components/style/style';
+import { useEffect, useState } from 'react';
+import useFAQS, { faqQueries } from '../../api/FAQ/query';
+import { FaqApi } from '../../api/FAQ/api';
+import { shawError, shawSuccess } from '../../lib/tosts';
+import { IFAQ } from '../../api/FAQ/interfaces';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { schema_faq } from '../../components/schema/shcema';
+import { categoryQueries } from '../../api/categories/query';
+import { useTheme } from '@mui/material';
+import Header from '../../components/Header/Header';
+import Body from '../../components/body/body';
+import ButtonComponent from '../../components/addNewModal/AddNewModalOfCategory';
 
 const FAQ = ({ themeMode }: { themeMode: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -26,8 +26,7 @@ const FAQ = ({ themeMode }: { themeMode: string }) => {
 
   const { data: response = [], refetch } = useFAQS();
 
-  const { data: faq, isLoading: isLoadingFaq } =
-    faqQueries.useGetFAQ(selectedId);
+  const { data: faq, isLoading: isLoading } = faqQueries.useGetFAQ(selectedId);
 
   const { data: categories = [] } = categoryQueries.useCategories();
 
@@ -40,12 +39,12 @@ const FAQ = ({ themeMode }: { themeMode: string }) => {
   } = useForm({
     resolver: yupResolver(
       schema_faq({
-        title: t("faq added sucessfully"),
-        cat: t("faq added sucessfully"),
-        description: t("faq added sucessfully"),
+        title: t('title is required'),
+        cat: t('category is required'),
+        description: t('description is required'),
       })
     ),
-    defaultValues: { title: "", description: "", category: [] },
+    defaultValues: { title: '', description: '', category: [] },
   });
   const generateRandomNumber = (min: number, max: number): number => {
     const randomNumber = Math.floor(Math.random() * (max - min + 1) + min);
@@ -53,9 +52,9 @@ const FAQ = ({ themeMode }: { themeMode: string }) => {
   };
   useEffect(() => {
     if (selectedId > 0 && faq) {
-      setValue("title", faq.title);
-      setValue("description", faq.description);
-      setValue("category", faq.category);
+      setValue('title', faq.title);
+      setValue('description', faq.description);
+      setValue('category', faq.category);
     }
   }, [selectedId, faq]);
 
@@ -63,19 +62,19 @@ const FAQ = ({ themeMode }: { themeMode: string }) => {
     try {
       if (selectedId > 0) {
         await FaqApi.updateFAQ({ data: data, id: selectedId });
-        shawSuccess(t("faq updated successfully"));
+        shawSuccess(t('faq updated successfully'));
       } else {
         await FaqApi.postFAQ({
           data: { ...data, id: generateRandomNumber(1, 100) },
         });
-        shawSuccess(t("faq added sucessfully"));
+        shawSuccess(t('faq added sucessfully'));
       }
       refetch();
       setSelectedId(0);
       toggleModal();
       reset();
     } catch (error) {
-      shawSuccess("error");
+      shawSuccess('error');
     }
   };
   const handleDelete = async (id?: number) => {
@@ -84,9 +83,9 @@ const FAQ = ({ themeMode }: { themeMode: string }) => {
         FaqApi.deleteFAQ(id);
       }
       refetch();
-      shawSuccess(t("faq deleted successfully"));
+      shawSuccess(t('faq deleted successfully'));
     } catch (err) {
-      shawError(t("failed in delete faq"));
+      shawError(t('failed in delete faq'));
     }
   };
 
@@ -114,28 +113,28 @@ const FAQ = ({ themeMode }: { themeMode: string }) => {
     });
 
   const columns = [
-    { th: t("ID"), key: "id" },
-    { th: t("Title"), key: "title" },
-    { th: t("Description"), key: "description" },
-    { th: t("Category"), key: "category" },
-    { th: t("Actions"), key: "actions" },
+    { th: t('ID'), key: 'id' },
+    { th: t('Title'), key: 'title' },
+    { th: t('Description'), key: 'description' },
+    { th: t('Category'), key: 'category' },
+    { th: t('Actions'), key: 'actions' },
   ];
   const inputs = [
     {
-      name: "title",
-      label: t("Title"),
+      name: 'title',
+      label: t('Title'),
       error: errors.title,
       errorMassage: errors.title?.message,
     },
     {
-      name: "description",
-      label: t("Description"),
+      name: 'description',
+      label: t('Description'),
       error: errors.description,
       errorMassage: errors.description?.message,
     },
     {
-      name: "category",
-      label: t("Category"),
+      name: 'category',
+      label: t('Category'),
       error: errors.category,
       errorMassage: errors.category?.message,
     },
@@ -147,7 +146,7 @@ const FAQ = ({ themeMode }: { themeMode: string }) => {
       sx={container}
       style={{
         backgroundColor:
-          themeMode === "dark"
+          themeMode === 'dark'
             ? theme.palette.primary.dark
             : theme.palette.background.default,
       }}
@@ -156,10 +155,10 @@ const FAQ = ({ themeMode }: { themeMode: string }) => {
         themeMode={themeMode}
         searchValue={searchValue}
         handleSearchChange={handleSearchChange}
-        label={t("Search For Faq")}
-        title={t("My Faq")}
+        label={t('Search For Faq')}
+        title={t('My Faq')}
         toggleModal={toggleModal}
-        titleButton={t("Add New Faq")}
+        titleButton={t('Add New Faq')}
       />
       <Body
         columns={columns}
@@ -179,9 +178,10 @@ const FAQ = ({ themeMode }: { themeMode: string }) => {
         inputs={inputs}
         errors={errors}
         selectedId={selectedId}
-        isLoadingFaq={isLoadingFaq}
+        isLoading={isLoading}
         reset={reset}
         categories={categories}
+        type="Faq"
       />
     </Box>
   );

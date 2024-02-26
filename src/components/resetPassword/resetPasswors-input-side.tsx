@@ -5,7 +5,7 @@ import { schema_password } from '../schema/shcema';
 import { userApi } from '../../api/auth/api';
 import TitleWithIcons from '../title-with-icons';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Box, Container } from '@mui/material';
+import { Box, Container, useMediaQuery } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { form } from '../style/style';
 import SubmitButtons from './resetPasswordButton';
@@ -63,6 +63,8 @@ const ResetPasswordInputSide = ({}: IResetPasswordInputSide) => {
       errorMassage: errors.newpassword,
     },
   ];
+  const isMobile = useMediaQuery('(max-width:630px)');
+
   return (
     <Box
       sx={{
@@ -70,7 +72,14 @@ const ResetPasswordInputSide = ({}: IResetPasswordInputSide) => {
         background: '#fff',
       }}
     >
-      <Container sx={form}>
+      <Container
+        sx={[
+          form,
+          {
+            height: isMobile ? '100vh' : '100vh',
+          },
+        ]}
+      >
         <TitleWithIcons title={t('Sign in to Account')} />
         <Box
           component="form"
